@@ -1,0 +1,37 @@
+{
+  "years": [
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "raw_rows": 35615837,
+  "per_year": [
+    {
+      "year": 2021,
+      "raw_rows": 8620507,
+      "out_of_range": 66
+    },
+    {
+      "year": 2022,
+      "raw_rows": 9505464,
+      "out_of_range": 1
+    },
+    {
+      "year": 2023,
+      "raw_rows": 9350315,
+      "out_of_range": 4
+    },
+    {
+      "year": 2024,
+      "raw_rows": 8139551,
+      "out_of_range": 5704
+    }
+  ],
+  "sites_total": 954,
+  "sites_kept": 538,
+  "hours": 35064,
+  "observations_kept": 18287581,
+  "missing_share_kept": 0.030578763251392888,
+  "negative_share": 0.022877383290879204
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "hourly_88101_2021.zip",
+    "url": "https://aqs.epa.gov/aqsweb/airdata/hourly_88101_2021.zip",
+    "bytes": 68868169,
+    "sha256": "3dc0aa79f90b694fe64488bd21b3a032199209c5048eed6d55cd28b13dc832b3"
+  },
+  {
+    "file": "hourly_88101_2022.zip",
+    "url": "https://aqs.epa.gov/aqsweb/airdata/hourly_88101_2022.zip",
+    "bytes": 75836309,
+    "sha256": "f42535eedec14ba722b0dfbb02c5cda3305c1107b4eb4fb3fed20cc79153aba4"
+  },
+  {
+    "file": "hourly_88101_2023.zip",
+    "url": "https://aqs.epa.gov/aqsweb/airdata/hourly_88101_2023.zip",
+    "bytes": 76998372,
+    "sha256": "32ec38a1dce00d2ea055d43f84b9abf5e09c5a11738c844d2afd294fe896b99f"
+  },
+  {
+    "file": "hourly_88101_2024.zip",
+    "url": "https://aqs.epa.gov/aqsweb/airdata/hourly_88101_2024.zip",
+    "bytes": 66347589,
+    "sha256": "d5cae2dc878c6b97c2d80e7583bc6c930562012ff129df9db604262fda465c38"
+  }
+]

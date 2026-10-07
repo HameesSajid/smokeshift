@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+*.part
+
+# The Python environment created by scripts/setup_env.ps1
+.venv/
+
+# Raw downloads, stored forecasts, trained models and pretrained weights
+# (about 11 GB; everything in here can be regenerated, see docs/INSTALLED.md)
+.cache/
+
+# Personal notes that are not part of the published project
+private_notes/

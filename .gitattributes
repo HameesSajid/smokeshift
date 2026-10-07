@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.npz binary
+*.png binary
+# Generated files: keep them out of language statistics and collapse them in diffs
+dashboard/data.js linguist-generated
+dashboard/states.js linguist-generated
+dashboard/index.html linguist-generated
+outputs/report.html linguist-generated
+docs/API_REFERENCE.md linguist-generated
