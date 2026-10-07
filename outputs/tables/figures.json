@@ -1,0 +1,10 @@
+{
+  "leaderboard": "06_leaderboard.png",
+  "horizon": "07_error_by_horizon.png",
+  "dilemma": "08_bias_by_outcome.png",
+  "spatial": "09_spatial_ablation.png",
+  "coverage": "10_interval_coverage.png",
+  "alerts": "11_alerts.png",
+  "shap": "12_shap.png",
+  "case": "13_case_forecasts.png"
+}

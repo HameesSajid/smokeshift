@@ -1,0 +1,31 @@
+{
+  "models": [
+    "Chronos-2",
+    "Chronos-2 (long context)",
+    "Chronos-Bolt",
+    "Damped persistence",
+    "Ensemble",
+    "Ensemble + foundation",
+    "Persistence",
+    "Seasonal naive",
+    "TimesFM",
+    "Transformer",
+    "Transformer + neighbours",
+    "XGBoost",
+    "XGBoost (level label)",
+    "XGBoost + neighbours"
+  ],
+  "issue_days": 729,
+  "monitors": 538,
+  "cells_scored": {
+    "All hours": 17799692,
+    "Calm at issue": 16975885,
+    "Smoke at issue": 823807,
+    "Elevated hours": 171383,
+    "Onsets": 90781
+  },
+  "reference": "Damped persistence",
+  "forecasts_scored": 375426,
+  "first_issue": "2023-01-01 12:00:00",
+  "last_issue": "2024-12-29 12:00:00"
+}

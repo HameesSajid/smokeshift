@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>SmokeShift Benchmark</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a summary strip, a map-led episode explorer (map beside one monitor's June 2023),
+   then the leaderboard with a stratum switch, then horizon and alert panels. */
+:root{
+  --bg:#edf0f2; --surface:#f8fafb; --ink:#14202a; --ink2:#465662; --muted:#7a8893; --line:#d2d9df; --accent:#c8501a;
+  --m-naive:#7a8893; --m-xgb:#2a78d6; --m-tr:#e0622f; --m-chronos:#14996b; --m-timesfm:#5b4bc0; --m-ens:#177d17;
+  --aqi-1:#3aa655; --aqi-2:#d9b600; --aqi-3:#f08a24; --aqi-4:#dc3c3c; --aqi-5:#8f3f97;
+  --cool:#2a78d6; --warm:#d03b3b;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f151a; --surface:#161f27; --ink:#e7edf1; --ink2:#a8b5bf; --muted:#74828d; --line:#283540; --accent:#f08a4b;
+    --m-naive:#8b98a2; --m-xgb:#4a93ea; --m-tr:#f0733f; --m-chronos:#23b582; --m-timesfm:#9a8ff0; --m-ens:#3db13d;
+    --cool:#4a93ea; --warm:#e66767; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f151a; --surface:#161f27; --ink:#e7edf1; --ink2:#a8b5bf; --muted:#74828d; --line:#283540; --accent:#f08a4b;
+  --m-naive:#8b98a2; --m-xgb:#4a93ea; --m-tr:#f0733f; --m-chronos:#23b582; --m-timesfm:#9a8ff0; --m-ens:#3db13d;
+  --cool:#4a93ea; --warm:#e66767; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 64px;padding-inline:18px;display:flex;flex-direction:column;gap:30px}
+.kicker{font:500 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:600 clamp(30px,5vw,46px)/1.04 var(--display);margin:8px 0 10px;letter-spacing:-.005em;text-wrap:balance;max-width:20ch}
+h2{font:600 24px/1.15 var(--display);margin:0;text-wrap:balance}
+.dek{font-size:17px;color:var(--ink2);max-width:62ch;margin:0}
+.lead{color:var(--ink2);max-width:68ch;margin:6px 0 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:14px 16px 14px 0;min-width:0}
+.stat b{display:block;font:500 28px/1.1 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat span{display:block;color:var(--ink2);font-size:13px;line-height:1.4;margin-top:5px;max-width:30ch}
+section{display:flex;flex-direction:column;gap:12px;min-width:0}
+.explorer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+@media (max-width:860px){.explorer{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;min-width:0}
+.panel h3{font:600 15px/1.25 var(--body);margin:0 0 2px}
+.panel .sub{color:var(--muted);font-size:12.5px;margin:0 0 8px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--body);fill:var(--ink2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 12.5px/1 var(--body);padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.ramp{display:flex;align-items:center;gap:8px;font:12px var(--mono);color:var(--muted)}
+.ramp div{flex:0 0 120px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--cool),#9aa5ad,var(--warm))}
+.note{border-left:3px solid var(--accent);padding:6px 0 6px 12px;color:var(--ink2);font-size:14px;max-width:70ch}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font:12px/1.45 var(--mono);padding:7px 9px;border-radius:6px;white-space:nowrap;z-index:5;transform:translate(-50%,-110%)}
+.rel{position:relative}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:18px}
+.foot{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px;max-width:80ch}
+.dot{cursor:pointer}
+table{border-collapse:collapse;font-size:13px;width:100%}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:500}
+.scroll{overflow-x:auto}
+@media (prefers-reduced-motion:no-preference){.chip{transition:background .12s,color .12s,border-color .12s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Benchmark · US EPA PM2.5 · 2021 to 2024</div>
+    <h1>Which forecasts survive wildfire smoke?</h1>
+    <p class="dek" id="dek"></p>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <section>
+    <h2>One smoke season, monitor by monitor</h2>
+    <p class="lead">Pick one of the larger dots to see what each model forecast every morning for the following 24 hours, from late May to early July 2023, against what was measured.</p>
+    <div class="explorer">
+      <div class="panel">
+        <h3>Where 2023 was different</h3>
+        <p class="sub">Hours above 35.4 µg/m³ in 2023, compared with the 2021 to 2022 average</p>
+        <div class="rel" id="map"></div>
+        <div class="ramp"><span>fewer</span><div></div><span>more</span></div>
+      </div>
+      <div class="panel">
+        <h3 id="site-name"></h3>
+        <p class="sub" id="site-sub"></p>
+        <div class="chips" id="model-chips" role="group" aria-label="Model shown"></div>
+        <div class="rel" id="series" style="margin-top:8px"></div>
+        <div class="legend" id="series-legend" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <div class="chips" id="city-chips" role="group" aria-label="Jump to a city"></div>
+  </section>
+
+  <section>
+    <h2>The leaderboard depends on how you slice it</h2>
+    <p class="lead">The same forecasts, scored on different subsets of the test period. Switch between them.</p>
+    <div class="chips" id="slice-chips" role="group" aria-label="Test subset"></div>
+    <div class="panel">
+      <h3 id="lb-title"></h3>
+      <p class="sub" id="lb-sub"></p>
+      <div id="leaderboard"></div>
+    </div>
+    <p class="note" id="lb-note"></p>
+  </section>
+
+  <section class="two">
+    <div class="panel">
+      <h3>Error grows with the horizon</h3>
+      <p class="sub">Mean absolute error by hours ahead, µg/m³</p>
+      <div class="chips" id="hz-chips" role="group" aria-label="Subset for the horizon chart" style="margin-bottom:8px"></div>
+      <div class="rel" id="horizon"></div>
+      <div class="legend" id="hz-legend" style="margin-top:6px"></div>
+    </div>
+    <div class="panel">
+      <h3>Warning before a clean day turns unhealthy</h3>
+      <p class="sub" id="alert-sub"></p>
+      <div id="alerts"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>All scores</h2>
+    <div class="panel scroll" id="table"></div>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="states.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+const D = window.SMOKESHIFT, US = window.US_STATES;
+const $ = id => document.getElementById(id);
+const fmt = d3.format(",");
+const family = m => m.startsWith("XGBoost") || m.startsWith("Classifier") ? "xgb" : m.startsWith("Transformer") ? "tr"
+  : m.startsWith("Chronos") ? "chronos" : m.startsWith("TimesFM") ? "timesfm" : m.startsWith("Ensemble") ? "ens" : "naive";
+const color = m => `var(--m-${family(m)})`;
+/* a lighter mark for the "plain" member of each family: own-history models, the older Chronos, the two-member ensemble */
+const dashed = m => ((m.startsWith("XGBoost") || m.startsWith("Transformer")) && !m.includes("neighbours")) || m.startsWith("Chronos-Bolt") || m.includes("long context") || m === "Ensemble";
+const score = (model, slice, key) => { const r = D.scores.find(d => d.model === model && d.slice === slice); return r ? r[key] : null; };
+const state = { site: null, model: null, slice: "All hours", hz: "all_hours" };
+
+function chips(el, items, current, onPick, swatch){
+  const root = $(el); root.innerHTML = "";
+  items.forEach(it => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.type = "button"; b.id = `${el}-${it.value.replace(/[^a-z0-9]+/gi, "-")}`;
+    b.setAttribute("aria-pressed", String(it.value === current));
+    if (swatch) { const i = document.createElement("i"); i.style.background = swatch(it.value); b.appendChild(i); }
+    b.appendChild(document.createTextNode(it.label));
+    b.addEventListener("click", () => onPick(it.value));
+    root.appendChild(b);
+  });
+}
+function tip(host){
+  let t = host.querySelector(".tip");
+  if (!t) { t = document.createElement("div"); t.className = "tip"; t.hidden = true; host.appendChild(t); }
+  return t;
+}
+
+/* ------------------------------------------------------------ header */
+const rel = D.relative.filter(d => d.slice === "All hours").sort((a, b) => a.relative_mae - b.relative_mae);
+const best = rel[0];
+const ne = y => D.shift.find(d => d.region === "Northeast" && d.year === y).pct_hours_over_usg;
+const hasFM = D.summary.models.some(m => m.startsWith("Chronos") || m.startsWith("TimesFM"));
+$("dek").textContent = `${D.summary.models.length} forecasting methods, from naive rules to gradient-boosted trees, a transformer${hasFM ? " and pretrained foundation models from Amazon and Google" : ""}, were fixed before the record 2023 smoke season and then tested through it at ${D.panel.sites_kept} monitors.`;
+const stats = [
+  [(D.panel.raw_rows / 1e6).toFixed(1) + "M", "raw hourly readings from the US EPA, reduced to a clean panel"],
+  [(D.summary.cells_scored["All hours"] / 1e6).toFixed(1) + "M", "forecast-hours scored, identical for every model"],
+  [(ne(2023) / ne(2022)).toFixed(1) + "×", "as many unhealthy hours in the Northeast in 2023 as in 2022"],
+  ["−" + Math.round((1 - best.relative_mae) * 100) + "%", `error of the best method (${best.model}) against the strongest naive forecast`],
+];
+$("stats").innerHTML = stats.map(s => `<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join("");
+
+/* --------------------------------------------------------------- map */
+const featured = D.monitors.filter(m => m.featured);
+const dotColor = d3.scaleDiverging([-300, 0, 300], t => d3.interpolateRgbBasis(["#2a78d6", "#9aa5ad", "#d03b3b"])(t)).clamp(true);
+function drawMap(){
+  const host = $("map"), w = host.clientWidth || 520, h = Math.round(w * 0.62);
+  host.querySelectorAll("svg").forEach(s => s.remove());
+  const svg = d3.select(host).append("svg").attr("viewBox", `0 0 ${w} ${h}`).attr("role", "img")
+    .attr("aria-label", "Map of monitors coloured by the change in unhealthy hours in 2023");
+  const states = topojson.feature(US, US.objects.states);
+  states.features = states.features.filter(f => !["02", "15", "72", "78", "60", "66", "69"].includes(f.id));
+  const proj = d3.geoAlbers().rotate([96, 0]).center([0, 38.7]).parallels([29.5, 45.5]).fitSize([w, h], states);
+  const path = d3.geoPath(proj);
+  svg.append("path").attr("d", path(topojson.mesh(US, US.objects.states, (a, b) => a !== b && !["02", "15"].includes(a.id) && !["02", "15"].includes(b.id))))
+    .attr("fill", "none").attr("stroke", "var(--line)").attr("stroke-width", 1);
+  svg.append("path").attr("d", path(topojson.merge(US, US.objects.states.geometries.filter(g => !["02", "15", "72", "78", "60", "66", "69"].includes(g.id)))))
+    .attr("fill", "none").attr("stroke", "var(--muted)").attr("stroke-width", 1);
+  const t = tip(host);
+  const pts = D.monitors.map(m => ({ m, p: proj([m.lon, m.lat]) })).filter(d => d.p)
+    .sort((a, b) => (a.m.featured - b.m.featured) || (Math.abs(a.m.extra) - Math.abs(b.m.extra)));
+  svg.selectAll("circle").data(pts).join("circle")
+    .attr("class", d => d.m.featured ? "dot" : null)
+    .attr("cx", d => d.p[0]).attr("cy", d => d.p[1])
+    .attr("r", d => d.m.i === state.site ? 7 : d.m.featured ? 4.6 : 2.6)
+    .attr("fill", d => dotColor(d.m.extra))
+    .attr("stroke", d => d.m.i === state.site ? "var(--ink)" : d.m.featured ? "var(--surface)" : "none")
+    .attr("stroke-width", d => d.m.i === state.site ? 2.2 : 1.2)
+    .attr("tabindex", d => d.m.featured ? 0 : null)
+    .attr("role", d => d.m.featured ? "button" : null)
+    .attr("aria-label", d => d.m.featured ? `${d.m.name}, ${d.m.h23} hours above the threshold in 2023` : null)
+    .on("mouseenter", (e, d) => { t.hidden = false; t.innerHTML = `${d.m.name}<br>${d.m.h23} h above 35.4 in 2023 (${d.m.extra >= 0 ? "+" : ""}${d.m.extra})${d.m.featured ? "" : "<br>not in the episode sample"}`; t.style.left = d.p[0] + "px"; t.style.top = d.p[1] + "px"; })
+    .on("mouseleave", () => { t.hidden = true; })
+    .on("click", (e, d) => { if (d.m.featured) pickSite(d.m.i); })
+    .on("keydown", (e, d) => { if (d.m.featured && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); pickSite(d.m.i); } });
+}
+
+/* ----------------------------------------------------- episode series */
+const AQI = [[0, 9, "Good", 1], [9, 35.4, "Moderate", 2], [35.4, 55.4, "Sensitive groups", 3], [55.4, 125.4, "Unhealthy", 4], [125.4, 1e4, "Very unhealthy", 5]];
+const start = new Date(D.window.start.replace(" ", "T") + "Z");
+const timeAt = i => new Date(start.getTime() + i * 3600e3);
+function drawSeries(){
+  const host = $("series"), s = D.series[String(state.site)], mon = D.monitors[state.site];
+  const w = host.clientWidth || 560, h = Math.max(250, Math.min(340, Math.round(w * 0.52)));
+  const m = { t: 10, r: w < 480 ? 8 : 104, b: 26, l: 38 };
+  host.querySelectorAll("svg").forEach(e => e.remove());
+  $("site-name").textContent = mon.name;
+  $("site-sub").textContent = `${mon.region} · ${mon.h23} hours above 35.4 µg/m³ in 2023 · times in UTC`;
+  const f = s.models[state.model], n = s.obs.length;
+  const top = Math.max(80, d3.max(s.obs) || 0, d3.max(f.hi || f.p) || 0) * 1.06;
+  const x = d3.scaleLinear([0, n - 1], [m.l, w - m.r]), y = d3.scaleLinear([0, top], [h - m.b, m.t]);
+  const svg = d3.select(host).append("svg").attr("viewBox", `0 0 ${w} ${h}`).attr("role", "img")
+    .attr("aria-label", `Observed PM2.5 and ${state.model} forecasts at ${mon.name}`);
+  AQI.filter(a => a[0] < top).forEach(a => {
+    const y0 = y(Math.min(a[1], top)), y1 = y(a[0]);
+    svg.append("rect").attr("x", m.l).attr("y", y0).attr("width", w - m.r - m.l).attr("height", y1 - y0)
+      .attr("fill", `var(--aqi-${a[3]})`).attr("opacity", .09);
+    if (w >= 480 && y1 - y0 > 11) svg.append("text").attr("x", w - m.r + 6).attr("y", Math.max(y0 + 10, (y0 + y1) / 2 + 4))
+      .attr("font-size", 10.5).style("fill", `var(--aqi-${a[3]})`).style("font-weight", 600).text(a[2]);
+  });
+  y.ticks(5).forEach(v => {
+    svg.append("line").attr("x1", m.l).attr("x2", w - m.r).attr("y1", y(v)).attr("y2", y(v)).attr("stroke", "var(--line)").attr("stroke-width", .7);
+    svg.append("text").attr("x", m.l - 6).attr("y", y(v) + 3.5).attr("text-anchor", "end").attr("font-size", 10.5).style("font-family", "var(--mono)").text(v);
+  });
+  const dayStep = w < 480 ? 10 : 5;
+  for (let i = 0; i < n; i++) { const d = timeAt(i);
+    if (d.getUTCHours() === 0 && Math.round((d - start) / 864e5) % dayStep === 0)
+      svg.append("text").attr("x", x(i)).attr("y", h - 8).attr("text-anchor", "middle").attr("font-size", 10.5).style("font-family", "var(--mono)")
+        .text(d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" })); }
+  const def = v => v != null;
+  if (f.lo) svg.append("path").attr("fill", color(state.model)).attr("opacity", .2)
+    .attr("d", d3.area().defined((d, i) => def(f.lo[i]) && def(f.hi[i])).x((d, i) => x(i)).y0((d, i) => y(Math.max(0, f.lo[i]))).y1((d, i) => y(Math.min(top, f.hi[i])))(f.p));
+  /* forecasts are issued once a day: break the line at each issue so separate forecasts are not joined */
+  for (let d0 = 0; d0 < n; d0 += 24)
+    svg.append("path").attr("fill", "none").attr("stroke", color(state.model)).attr("stroke-width", 1.8).attr("stroke-linejoin", "round")
+      .attr("d", d3.line().defined(v => def(v)).x((v, i) => x(d0 + i)).y(v => y(Math.min(top, Math.max(0, v))))(f.p.slice(d0, d0 + 24)));
+  svg.append("path").attr("fill", "none").attr("stroke", "var(--ink)").attr("stroke-width", 1.3)
+    .attr("d", d3.line().defined(v => def(v)).x((v, i) => x(i)).y(v => y(Math.max(0, v)))(s.obs));
+  const rule = svg.append("line").attr("y1", m.t).attr("y2", h - m.b).attr("stroke", "var(--muted)").attr("stroke-width", 1).attr("opacity", 0);
+  const t = tip(host), one = v => v == null ? "n/a" : v.toFixed(0);
+  svg.append("rect").attr("x", m.l).attr("y", m.t).attr("width", w - m.r - m.l).attr("height", h - m.b - m.t).attr("fill", "transparent")
+    .on("pointermove", e => { const [px] = d3.pointer(e); const i = Math.max(0, Math.min(n - 1, Math.round(x.invert(px))));
+      rule.attr("x1", x(i)).attr("x2", x(i)).attr("opacity", 1); t.hidden = false;
+      const d = timeAt(i);
+      t.innerHTML = `${d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" })} ${String(d.getUTCHours()).padStart(2, "0")}:00<br>observed ${one(s.obs[i])}<br>forecast ${one(f.p[i])}${f.lo ? ` (${one(f.lo[i])} to ${one(f.hi[i])})` : ""}`;
+      t.style.left = Math.max(70, Math.min(w - 70, x(i))) + "px"; t.style.top = (m.t + 26) + "px"; })
+    .on("pointerleave", () => { rule.attr("opacity", 0); t.hidden = true; });
+  $("series-legend").innerHTML = `<span><i style="background:var(--ink)"></i>Observed</span><span><i style="background:${color(state.model)}"></i>${state.model}, next 24 h</span>${f.lo ? `<span><i style="background:${color(state.model)};opacity:.35;height:9px"></i>80% interval</span>` : ""}`;
+}
+function pickSite(i){ state.site = i; drawMap(); drawSeries(); renderCityChips(); }
+function pickModel(mn){ state.model = mn; renderModelChips(); drawSeries(); }
+function renderModelChips(){ chips("model-chips", D.models.map(mn => ({ value: mn, label: mn })), state.model, pickModel, color); }
+function renderCityChips(){
+  const named = featured.filter(mn => !mn.name.includes(",")).map(mn => ({ value: String(mn.i), label: mn.name }));
+  chips("city-chips", named, String(state.site), v => pickSite(+v));
+}
+
+/* -------------------------------------------------------- leaderboard */
+const SLICES = [
+  { value: "All hours", label: "All hours", fair: true, note: "Learned models beat every naive rule, and averaging two different kinds of model beats either one. Percentages compare each method with damped persistence, the strongest naive forecast." },
+  { value: "Calm at issue", label: "Calm when issued", fair: true, note: "No reading above 35.4 µg/m³ in the 24 hours before the forecast. This is most of the data, and it looks like the overall ranking." },
+  { value: "Smoke at issue", label: "Smoke when issued", fair: true, note: "At least one reading above 35.4 µg/m³ in the 24 hours before the forecast. This is a fair test of behaviour in smoke, because the forecaster knows which case applies. Plain persistence is nearly the worst here: episodes end." },
+  { value: "Elevated hours", label: "Hours that turned out bad", fair: false, note: "Only hours later observed above 35.4 µg/m³. Persistence now looks best. Nothing about the forecasts changed: selecting cases by their outcome rewards any forecast that leans high. This is the forecaster's dilemma, and it is why this benchmark never ranks models on outcome-selected data." },
+];
+function drawLeaderboard(){
+  const sl = SLICES.find(s => s.value === state.slice);
+  const rows = D.summary.models.map(mn => ({ mn, mae: score(mn, sl.value, "mae"), r: D.relative.find(d => d.slice === sl.value && d.model === mn) }))
+    .filter(d => d.mae != null).sort((a, b) => a.mae - b.mae);
+  $("lb-title").textContent = `Mean absolute error, µg/m³ · ${fmt(score(rows[0].mn, sl.value, "n"))} forecast-hours`;
+  $("lb-sub").textContent = sl.fair ? "Defined by what was known when the forecast was made" : "Defined by what happened afterwards";
+  $("lb-note").textContent = sl.note;
+  const host = $("leaderboard"), w = host.clientWidth || 700, rh = 26, lab = w < 520 ? 138 : 190, val = 148;
+  const h = rows.length * rh + 6, x = d3.scaleLinear([0, d3.max(rows, d => d.mae)], [0, Math.max(40, w - lab - val)]);
+  host.innerHTML = "";
+  const svg = d3.select(host).append("svg").attr("viewBox", `0 0 ${w} ${h}`).attr("role", "img").attr("aria-label", "Models ranked by mean absolute error");
+  const ref = rows.find(d => d.mn === D.summary.reference);
+  rows.forEach((d, i) => {
+    const yy = i * rh + 4;
+    svg.append("text").attr("x", lab - 8).attr("y", yy + 14).attr("text-anchor", "end").attr("font-size", w < 520 ? 11 : 12.5)
+      .style("fill", "var(--ink)").style("font-weight", d.mn === "Persistence" ? 600 : 400).text(d.mn);
+    svg.append("rect").attr("x", lab).attr("y", yy + 3).attr("width", x(d.mae)).attr("height", rh - 10).attr("rx", 3)
+      .attr("fill", color(d.mn)).attr("opacity", dashed(d.mn) || family(d.mn) === "naive" ? .55 : 1);
+    const pct = ref && d.mn !== ref.mn ? `${d.mae < ref.mae ? "−" : "+"}${Math.abs((d.mae / ref.mae - 1) * 100).toFixed(0)}%` : "reference";
+    svg.append("text").attr("x", lab + x(d.mae) + 7).attr("y", yy + 14).attr("font-size", 12).style("font-family", "var(--mono)").style("fill", "var(--ink)")
+      .text(`${d.mae.toFixed(2)}  ${pct}`);
+  });
+}
+
+/* ------------------------------------------------------------ horizon */
+const HZ_MODELS = ["Damped persistence", "XGBoost + neighbours", "Transformer + neighbours", "Chronos-2", "TimesFM", "Ensemble", "Ensemble + foundation"];
+function drawHorizon(){
+  const t = D.horizon[state.hz], models = HZ_MODELS.filter(mn => t[mn]);
+  const host = $("horizon"), w = host.clientWidth || 480, h = Math.round(Math.max(220, Math.min(300, w * 0.6))), m = { t: 8, r: 10, b: 28, l: 34 };
+  host.querySelectorAll("svg").forEach(e => e.remove());
+  const top = d3.max(models, mn => d3.max(t[mn])) * 1.05;
+  const x = d3.scaleLinear([1, 48], [m.l, w - m.r]), y = d3.scaleLinear([0, top], [h - m.b, m.t]);
+  const svg = d3.select(host).append("svg").attr("viewBox", `0 0 ${w} ${h}`).attr("role", "img").attr("aria-label", "Error by forecast horizon");
+  y.ticks(5).forEach(v => { svg.append("line").attr("x1", m.l).attr("x2", w - m.r).attr("y1", y(v)).attr("y2", y(v)).attr("stroke", "var(--line)").attr("stroke-width", .7);
+    svg.append("text").attr("x", m.l - 6).attr("y", y(v) + 3.5).attr("text-anchor", "end").attr("font-size", 10.5).style("font-family", "var(--mono)").text(v); });
+  [1, 12, 24, 36, 48].forEach(v => svg.append("text").attr("x", x(v)).attr("y", h - 9).attr("text-anchor", "middle").attr("font-size", 10.5).style("font-family", "var(--mono)").text(v + " h"));
+  models.forEach(mn => svg.append("path").attr("fill", "none").attr("stroke", color(mn)).attr("stroke-width", 1.8)
+    .attr("stroke-dasharray", dashed(mn) || family(mn) === "naive" ? "5 4" : null)
+    .attr("d", d3.line().x((v, i) => x(t.horizon_h[i])).y(v => y(v))(t[mn])));
+  const rule = svg.append("line").attr("y1", m.t).attr("y2", h - m.b).attr("stroke", "var(--muted)").attr("opacity", 0);
+  const tp = tip(host);
+  svg.append("rect").attr("x", m.l).attr("y", m.t).attr("width", w - m.r - m.l).attr("height", h - m.b - m.t).attr("fill", "transparent")
+    .on("pointermove", e => { const i = Math.max(0, Math.min(47, Math.round(x.invert(d3.pointer(e)[0])) - 1));
+      rule.attr("x1", x(i + 1)).attr("x2", x(i + 1)).attr("opacity", 1); tp.hidden = false;
+      tp.innerHTML = `${i + 1} h ahead<br>` + models.map(mn => `${mn} ${t[mn][i].toFixed(2)}`).join("<br>");
+      tp.style.left = Math.max(110, Math.min(w - 110, x(i + 1))) + "px"; tp.style.top = (h - m.b - 4) + "px"; tp.style.transform = "translate(-50%,-100%)"; })
+    .on("pointerleave", () => { rule.attr("opacity", 0); tp.hidden = true; });
+  $("hz-legend").innerHTML = models.map(mn => `<span><i style="background:${color(mn)};${dashed(mn) || family(mn) === "naive" ? "opacity:.55" : ""}"></i>${mn}</span>`).join("");
+}
+
+/* ------------------------------------------------------------- alerts */
+function drawAlerts(){
+  const rows = D.alerts.filter(d => d.day.startsWith("Day 1") && d.slice.startsWith("Onsets")).sort((a, b) => b.pr_auc - a.pr_auc);
+  $("alert-sub").textContent = `Skill at ranking which of ${fmt(rows[0].n)} clean monitor-days become unhealthy the next day (${fmt(rows[0].events)} did). PR-AUC, higher is better.`;
+  const host = $("alerts"), w = host.clientWidth || 480, rh = 24, lab = w < 440 ? 150 : 200;
+  const x = d3.scaleLinear([0, d3.max(rows, d => d.pr_auc)], [0, Math.max(40, w - lab - 48)]);
+  host.innerHTML = "";
+  const svg = d3.select(host).append("svg").attr("viewBox", `0 0 ${w} ${rows.length * rh + 4}`).attr("role", "img").attr("aria-label", "Onset warning skill by method");
+  rows.forEach((d, i) => { const yy = i * rh + 2, nb = d.method.includes("neighbours") || d.method === "Ensemble";
+    svg.append("text").attr("x", lab - 8).attr("y", yy + 14).attr("text-anchor", "end").attr("font-size", w < 440 ? 10.5 : 12).style("fill", "var(--ink)").text(d.method);
+    svg.append("rect").attr("x", lab).attr("y", yy + 3).attr("width", x(d.pr_auc)).attr("height", rh - 9).attr("rx", 3).attr("fill", color(d.method)).attr("opacity", nb ? 1 : .5);
+    svg.append("text").attr("x", lab + x(d.pr_auc) + 6).attr("y", yy + 14).attr("font-size", 12).style("font-family", "var(--mono)").style("fill", "var(--ink)").text(d.pr_auc.toFixed(2)); });
+}
+
+/* -------------------------------------------------------------- table */
+function drawTable(){
+  const cols = ["All hours", "Calm at issue", "Smoke at issue"];
+  const rows = D.summary.models.map(mn => ({ mn, v: cols.map(c => score(mn, c, "mae")), wql: score(mn, "All hours", "wql"), mase: score(mn, "All hours", "mase") }))
+    .sort((a, b) => a.v[0] - b.v[0]);
+  const cov = mn => { const r = D.intervals.find(d => d.model === mn && d.method === "Adaptive conformal" && d.slice === "All hours"); return r ? (r.coverage * 100).toFixed(1) + "%" : "n/a"; };
+  $("table").innerHTML = `<table><thead><tr><th>Model</th>${cols.map(c => `<th>MAE, ${c.toLowerCase()}</th>`).join("")}<th>MASE</th><th>Quantile loss</th><th>80% interval coverage, calibrated</th></tr></thead><tbody>`
+    + rows.map(r => `<tr><td>${r.mn}</td>${r.v.map(v => `<td>${v.toFixed(2)}</td>`).join("")}<td>${r.mase.toFixed(3)}</td><td>${r.wql == null ? "n/a" : r.wql.toFixed(3)}</td><td>${cov(r.mn)}</td></tr>`).join("") + "</tbody></table>";
+}
+
+$("foot").textContent = `Data: US EPA Air Quality System, hourly PM2.5 (parameter 88101), ${D.panel.years[0]} to ${D.panel.years[D.panel.years.length - 1]}. Models learn from data before July 2022, are tuned on July to December 2022, and are tested on ${D.summary.issue_days} daily forecasts in 2023 and 2024. Each forecast uses at most 168 hours of history and predicts 48 hours. State outlines: US Census Bureau via us-atlas.`;
+
+/* --------------------------------------------------------------- boot */
+state.site = (featured.find(mn => mn.name === "Philadelphia") || featured[0]).i;
+state.model = D.models.includes("Transformer + neighbours") ? "Transformer + neighbours" : D.models[D.models.length - 1];
+const renderSliceChips = () => chips("slice-chips", SLICES, state.slice, v => { state.slice = v; renderSliceChips(); drawLeaderboard(); });
+const renderHzChips = () => chips("hz-chips", [{ value: "all_hours", label: "All hours" }, { value: "smoke_at_issue", label: "Smoke when issued" }], state.hz, v => { state.hz = v; renderHzChips(); drawHorizon(); });
+function drawAll(){ drawMap(); drawSeries(); drawLeaderboard(); drawHorizon(); drawAlerts(); }
+renderModelChips(); renderCityChips(); renderSliceChips(); renderHzChips(); drawTable(); drawAll();
+let timer; new ResizeObserver(() => { clearTimeout(timer); timer = setTimeout(drawAll, 120); }).observe(document.querySelector(".wrap"));
+})();
+</script>
+
+</body>
+</html>
