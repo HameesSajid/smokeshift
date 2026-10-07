@@ -59,9 +59,9 @@ at face value is checked with a reliability table rather than assumed.
 
 | Name | Value |
 |---|---|
-| `DAYS` | `{'Day 1 (hours 1-24)': (0, 24), 'Day 2 (hours 25-48)': (24, 48)}` |
+| `DAYS` | `{"Day 1 (hours 1-24)": (0, 24), "Day 2 (hours 25-48)": (24, 48)}` |
 | `MIN_HOURS` | `18` |
-| `PARAMS` | `{'objective': 'binary:logistic', 'eval_metric': 'aucpr', 'tree_method': 'hist', 'max_de...` |
+| `PARAMS` | `{"objective": "binary:logistic", "eval_metric": "aucpr", "tree_method": "hist", "max_de...` |
 
 #### `events(bench, t_idx)`
 
@@ -175,28 +175,28 @@ Paths and the experimental design, in one place.
 | Name | Value |
 |---|---|
 | `ROOT` | `Path(__file__).resolve().parents[2]` |
-| `PROCESSED` | `ROOT / 'data' / 'processed'` |
-| `OUT` | `ROOT / 'outputs'` |
-| `FIG` | `OUT / 'figures'` |
-| `TAB` | `OUT / 'tables'` |
-| `CACHE` | `Path(os.environ.get('SMOKESHIFT_CACHE', ROOT / '.cache'))` |
-| `RAW` | `CACHE / 'raw'` |
-| `FORECASTS` | `CACHE / 'forecasts'` |
-| `MODELS` | `CACHE / 'models'` |
+| `PROCESSED` | `ROOT / "data" / "processed"` |
+| `OUT` | `ROOT / "outputs"` |
+| `FIG` | `OUT / "figures"` |
+| `TAB` | `OUT / "tables"` |
+| `CACHE` | `Path(os.environ.get("SMOKESHIFT_CACHE", ROOT / ".cache"))` |
+| `RAW` | `CACHE / "raw"` |
+| `FORECASTS` | `CACHE / "forecasts"` |
+| `MODELS` | `CACHE / "models"` |
 | `SEED` | `7` |
 | `YEARS` | `[2021, 2022, 2023, 2024]` |
-| `EPA_URL` | `'https://aqs.epa.gov/aqsweb/airdata/hourly_88101_{year}.zip'` |
+| `EPA_URL` | `"https://aqs.epa.gov/aqsweb/airdata/hourly_88101_{year}.zip"` |
 | `MIN_COMPLETENESS` | `0.85` |
 | `VALID_RANGE` | `(-10.0, 1000.0)` |
-| `TRAIN_END` | `'2022-07-01'` |
-| `VALID_END` | `'2023-01-01'` |
+| `TRAIN_END` | `"2022-07-01"` |
+| `VALID_END` | `"2023-01-01"` |
 | `TEST_YEARS` | `[2023, 2024]` |
 | `CONTEXT` | `168` |
 | `HORIZON` | `48` |
 | `ISSUE_HOUR_UTC` | `12` |
 | `QUANTILES` | `[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]` |
 | `INTERVAL` | `(0.1, 0.9)` |
-| `HORIZON_BUCKETS` | `{'1-6 h': (1, 6), '7-24 h': (7, 24), '25-48 h': (25, 48)}` |
+| `HORIZON_BUCKETS` | `{"1-6 h": (1, 6), "7-24 h": (7, 24), "25-48 h": (25, 48)}` |
 | `USG` | `35.4` |
 
 
@@ -264,7 +264,7 @@ Parameter 88101 is PM2.5 measured by federal reference or equivalent methods.
 
 | Name | Value |
 |---|---|
-| `STATES_URL` | `'https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-10m.json'` |
+| `STATES_URL` | `"https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-10m.json"` |
 
 #### `_sha256(path)`
 
@@ -303,8 +303,8 @@ figure:
 
 | Name | Value |
 |---|---|
-| `REGION_ORDER` | `['Northeast', 'Midwest', 'South', 'West']` |
-| `CASE_SITES` | `{'Minneapolis': '27-053-0962', 'Chicago': '17-031-4007', 'Detroit': '26-163-0001', 'Cle...` |
+| `REGION_ORDER` | `["Northeast", "Midwest", "South", "West"]` |
+| `CASE_SITES` | `{"Minneapolis": "27-053-0962", "Chicago": "17-031-4007", "Detroit": "26-163-0001", "Cle...` |
 
 #### `daily_means(bench, min_hours=18)`
 
@@ -329,7 +329,7 @@ Per monitor: hours above the threshold in 2023 against each other year.
 The same monitors are measured in both years, so the test is paired
 (Wilcoxon signed-rank), which removes between-monitor differences.
 
-#### `distribution_distance(bench, n=400000)`
+#### `distribution_distance(bench, n=400_000)`
 
 How far the hourly distribution moved from the training period, by region.
 
@@ -349,7 +349,7 @@ Correlation of daily anomalies between monitor pairs, by distance.
 
 Principal components of the monitor-by-day anomaly matrix (EOF analysis).
 
-#### `plume_lags(bench, start='2023-06-25', end='2023-07-02', max_lag=96)`
+#### `plume_lags(bench, start="2023-06-25", end="2023-07-02", max_lag=96)`
 
 Hours by which each downwind city trails the first one, by cross-correlation.
 
@@ -387,9 +387,9 @@ Score every stored forecast on the common grid and write the result tables.
 
 | Name | Value |
 |---|---|
-| `REFERENCE` | `'Damped persistence'` |
+| `REFERENCE` | `"Damped persistence"` |
 | `AQI_EDGES` | `[-np.inf, 9.0, 35.4, 55.4, 125.4, np.inf]` |
-| `AQI_LABELS` | `['0-9\nGood', '9-35\nModerate', '35-55\nSensitive groups', '55-125\nUnhealthy', 'over 1...` |
+| `AQI_LABELS` | `["0-9\nGood", "9-35\nModerate", "35-55\nSensitive groups", "55-125\nUnhealthy", "over 1...` |
 
 #### `common_grid(bench, t_idx)`
 
@@ -416,10 +416,10 @@ model's day-ahead forecasts through the 2023 smoke season.
 
 | Name | Value |
 |---|---|
-| `WINDOW` | `('2023-05-28', '2023-07-06')` |
-| `MODELS` | `['Damped persistence', 'XGBoost', 'XGBoost + neighbours', 'Transformer + neighbours', '...` |
+| `WINDOW` | `("2023-05-28", "2023-07-06")` |
+| `MODELS` | `["Damped persistence", "XGBoost", "XGBoost + neighbours", "Transformer + neighbours", "...` |
 | `N_FEATURED` | `60` |
-| `SKELETON` | `'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewpor...` |
+| `SKELETON` | `'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n' '<meta name="view...` |
 
 #### `_featured(bench)`
 
@@ -462,7 +462,7 @@ reasoning rather than assuming it; the report gives the result.
 |---|---|
 | `LAGS` | `[1, 2, 3, 6, 12, 24, 48, 72, 167]` |
 | `EPOCH_DOW` | `4` |
-| `HORIZON_NAMES` | `['horizon', 'seasonal_minus_last', 'profile_minus_last', 'target_solar_sin', 'target_so...` |
+| `HORIZON_NAMES` | `["horizon", "seasonal_minus_last", "profile_minus_last", "target_solar_sin", "target_so...` |
 
 #### `base(bench, t_idx, use_spatial=False, nb=None)`
 
@@ -493,8 +493,8 @@ Result figures, drawn from the tables that the evaluation stages wrote.
 
 | Name | Value |
 |---|---|
-| `NAIVE` | `['Persistence', 'Seasonal naive', 'Damped persistence']` |
-| `HEADLINE` | `['Damped persistence', 'XGBoost + neighbours', 'Transformer + neighbours', 'Chronos-2',...` |
+| `NAIVE` | `["Persistence", "Seasonal naive", "Damped persistence"]` |
+| `HEADLINE` | `["Damped persistence", "XGBoost + neighbours", "Transformer + neighbours", "Chronos-2",...` |
 
 #### `_order(models)`
 
@@ -524,11 +524,11 @@ Monthly coverage of raw, static-conformal and adaptive-conformal 80% intervals f
 
 PR-AUC of every alert method, for all days and for onsets.
 
-#### `fig_shap(model='XGBoost + neighbours', top=12)`
+#### `fig_shap(model="XGBoost + neighbours", top=12)`
 
 Top features by mean absolute SHAP value, for clean and for elevated target hours.
 
-#### `fig_case_forecast(bench, site='42-101-0057', city='Philadelphia', start='2023-06-04', days=7)`
+#### `fig_case_forecast(bench, site="42-101-0057", city="Philadelphia", start="2023-06-04", days=7)`
 
 Day-ahead forecasts through the 6-8 June 2023 episode, for the headline models.
 
@@ -562,8 +562,8 @@ scripts/setup_env.ps1). A model whose package is missing is skipped.
 | Name | Value |
 |---|---|
 | `LONG_CONTEXT` | `512` |
-| `MODELS` | `{'Chronos-Bolt': ('bolt', 'amazon/chronos-bolt-base', config.CONTEXT), 'Chronos-Bolt (l...` |
-| `DEFAULT` | `['Chronos-2', 'TimesFM', 'Chronos-Bolt', 'Chronos-2 (long context)']` |
+| `MODELS` | `{ "Chronos-Bolt": ("bolt", "amazon/chronos-bolt-base", config.CONTEXT), "Chronos-Bolt (...` |
+| `DEFAULT` | `["Chronos-2", "TimesFM", "Chronos-Bolt", "Chronos-2 (long context)"]` |
 
 #### `_batches(bench, t_idx, length, batch)`
 
@@ -607,17 +607,17 @@ two controlled comparisons:
 
 | Name | Value |
 |---|---|
-| `VARIANTS` | `{'XGBoost': {'use_spatial': False, 'label': 'change'}, 'XGBoost + neighbours': {'use_sp...` |
+| `VARIANTS` | `{ "XGBoost": {"use_spatial": False, "label": "change"}, "XGBoost + neighbours": {"use_s...` |
 | `TRAIN_ISSUE_HOURS` | `(0, 6, 12, 18)` |
-| `PARAMS` | `{'objective': 'reg:quantileerror', 'quantile_alpha': config.QUANTILES, 'tree_method': '...` |
-| `SEARCH_SPACE` | `{'max_depth': [5, 6, 8, 10], 'eta': [0.03, 0.05, 0.08], 'min_child_weight': [5, 20, 100...` |
-| `TUNING_FILE` | `config.TAB / 'gbm_tuning.json'` |
+| `PARAMS` | `{ "objective": "reg:quantileerror", "quantile_alpha": config.QUANTILES, "tree_method": ...` |
+| `SEARCH_SPACE` | `{"max_depth": [5, 6, 8, 10], "eta": [0.03, 0.05, 0.08], "min_child_weight": [5, 20, 100...` |
+| `TUNING_FILE` | `config.TAB / "gbm_tuning.json"` |
 
 #### `tuned_params()`
 
 The search winner if `python run.py tune` has been run, else the defaults.
 
-#### `tune(bench, log=print, n_trials=10, n_rows=700000, variant='XGBoost + neighbours')`
+#### `tune(bench, log=print, n_trials=10, n_rows=700_000, variant="XGBoost + neighbours")`
 
 Random search on the validation period (July to December 2022).
 
@@ -644,7 +644,7 @@ Train one variant with early stopping on the validation period; return the boost
 
 Quantile forecasts on the benchmark grid: ([S, D, H] median, [S, D, H, 9] quantiles).
 
-#### `shap_summary(bench, booster, name, t_idx, n_rows=60000)`
+#### `shap_summary(bench, booster, name, t_idx, n_rows=60_000)`
 
 Mean |SHAP| of each feature for the median forecast, on clean and elevated targets.
 
@@ -676,7 +676,7 @@ plume makes errors on the same day strongly dependent across monitors.
 
 | Name | Value |
 |---|---|
-| `Q` | `np.array(config.QUANTILES, dtype='float32')` |
+| `Q` | `np.array(config.QUANTILES, dtype="float32")` |
 
 #### `regimes(bench, t_idx, y, elig)`
 
@@ -810,8 +810,8 @@ mean of neighbours within 300 km, and of those 300 to 800 km away.
 | `PATCH` | `8` |
 | `SCALE` | `5.0` |
 | `Q` | `torch.tensor(config.QUANTILES)` |
-| `VARIANTS` | `{'Transformer': False, 'Transformer + neighbours': True}` |
-| `PRESETS` | `{'cpu': {'d_model': 96, 'n_layers': 2, 'batch': 256, 'steps': 300, 'epochs': 25, 'patie...` |
+| `VARIANTS` | `{"Transformer": False, "Transformer + neighbours": True}` |
+| `PRESETS` | `{ "cpu": {"d_model": 96, "n_layers": 2, "batch": 256, "steps": 300, "epochs": 25, "pati...` |
 
 #### `to_z(x)`
 
@@ -888,12 +888,12 @@ Decisions made here, and why:
 
 | Name | Value |
 |---|---|
-| `COLS` | `['State Code', 'County Code', 'Site Num', 'POC', 'Latitude', 'Longitude', 'Date GMT', '...` |
-| `EPOCH` | `pd.Timestamp(f'{config.YEARS[0]}-01-01')` |
-| `N_HOURS` | `int((pd.Timestamp(f'{config.YEARS[-1] + 1}-01-01') - EPOCH) / pd.Timedelta(hours=1))` |
-| `NOT_CONUS` | `{'02', '15', '72', '78', '80', 'CC', '66'}` |
-| `REGIONS` | `{'Northeast': ['Connecticut', 'Maine', 'Massachusetts', 'New Hampshire', 'Rhode Island'...` |
-| `STATE_REGION` | `{s: r for (r, states) in REGIONS.items() for s in states}` |
+| `COLS` | `["State Code", "County Code", "Site Num", "POC", "Latitude", "Longitude", "Date GMT", "...` |
+| `EPOCH` | `pd.Timestamp(f"{config.YEARS[0]}-01-01")` |
+| `N_HOURS` | `int((pd.Timestamp(f"{config.YEARS[-1] + 1}-01-01") - EPOCH) / pd.Timedelta(hours=1))` |
+| `NOT_CONUS` | `{"02", "15", "72", "78", "80", "CC", "66"}` |
+| `REGIONS` | `{ "Northeast": ["Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island...` |
+| `STATE_REGION` | `{s: r for r, states in REGIONS.items() for s in states}` |
 
 #### `_read_year(year, log)`
 
@@ -925,8 +925,8 @@ The stages of the benchmark, in the order they run.
 
 | Name | Value |
 |---|---|
-| `ENSEMBLES` | `{'Ensemble': ['XGBoost + neighbours', 'Transformer + neighbours'], 'Ensemble + foundati...` |
-| `STAGES` | `{'download': ('Fetch raw EPA hourly PM2.5 files', download.run), 'panel': ('Build and a...` |
+| `ENSEMBLES` | `{ "Ensemble": ["XGBoost + neighbours", "Transformer + neighbours"], "Ensemble + foundat...` |
+| `STAGES` | `{ "download": ("Fetch raw EPA hourly PM2.5 files", download.run), "panel": ("Build and ...` |
 
 #### `naive_stage(log=print)`
 
@@ -994,10 +994,10 @@ solid where the own-history variant is dashed.
 
 | Name | Value |
 |---|---|
-| `SEQ` | `LinearSegmentedColormap.from_list('seq_blue', ['#eef4fd', '#9ec5f4', '#2a78d6', '#0d366...` |
-| `SEQ_WARM` | `LinearSegmentedColormap.from_list('seq_warm', ['#fdf1ea', '#f5b08f', '#eb6834', '#8a2f0...` |
-| `DIV` | `LinearSegmentedColormap.from_list('div_blue_red', ['#184f95', '#6da7ec', '#f0efec', '#e...` |
-| `MODEL_STYLE` | `{'Persistence': (MUTED, ':'), 'Seasonal naive': (MUTED, '-.'), 'Damped persistence': (M...` |
+| `SEQ` | `LinearSegmentedColormap.from_list("seq_blue", ["#eef4fd", "#9ec5f4", "#2a78d6", "#0d366...` |
+| `SEQ_WARM` | `LinearSegmentedColormap.from_list("seq_warm", ["#fdf1ea", "#f5b08f", "#eb6834", "#8a2f0...` |
+| `DIV` | `LinearSegmentedColormap.from_list("div_blue_red", ["#184f95", "#6da7ec", "#f0efec", "#e...` |
+| `MODEL_STYLE` | `{ "Persistence": (MUTED, ":"), "Seasonal naive": (MUTED, "-."), "Damped persistence": (...` |
 
 #### `style(model)`
 
@@ -1024,11 +1024,11 @@ write-up cannot drift away from what was computed.
 
 | Name | Value |
 |---|---|
-| `CSS` | `'\n:root{--bg:#f7f8f8;--surface:#fdfdfc;--ink:#101314;--ink2:#4a5256;--muted:#7f888c;--...` |
-| `NAIVE` | `['Persistence', 'Seasonal naive', 'Damped persistence']` |
-| `FOUNDATION` | `['Chronos-Bolt', 'Chronos-Bolt (long context)', 'Chronos-2', 'Chronos-2 (long context)'...` |
-| `ENSEMBLES` | `['Ensemble', 'Ensemble + foundation']` |
-| `DESCRIPTIONS` | `{'Persistence': 'The latest reading, repeated for 48 hours', 'Seasonal naive': 'The sam...` |
+| `CSS` | `""" :root{--bg:#f7f8f8;--surface:#fdfdfc;--ink:#101314;--ink2:#4a5256;--muted:#7f888c;-...` |
+| `NAIVE` | `["Persistence", "Seasonal naive", "Damped persistence"]` |
+| `FOUNDATION` | `["Chronos-Bolt", "Chronos-Bolt (long context)", "Chronos-2", "Chronos-2 (long context)"...` |
+| `ENSEMBLES` | `["Ensemble", "Ensemble + foundation"]` |
+| `DESCRIPTIONS` | `{ "Persistence": "The latest reading, repeated for 48 hours", "Seasonal naive": "The sa...` |
 
 #### `_img(name)`
 
@@ -1071,7 +1071,7 @@ or before the issue time.
 | Name | Value |
 |---|---|
 | `EARTH_KM` | `6371.0` |
-| `QUADRANTS` | `{'ne': (0, 90), 'se': (90, 180), 'sw': (180, 270), 'nw': (270, 360)}` |
+| `QUADRANTS` | `{"ne": (0, 90), "se": (90, 180), "sw": (180, 270), "nw": (270, 360)}` |
 
 #### `distances_and_bearings(lat, lon)`
 
@@ -1126,15 +1126,15 @@ scoring code reads one model at a time and never holds two in memory.
 
 Folder holding one model's forecast.
 
-#### `save(name, point, quantiles=None, info=None, split='test')`
+#### `save(name, point, quantiles=None, info=None, split="test")`
 
 Write a model's point forecast, optional quantiles and metadata.
 
-#### `load(name, split='test')`
+#### `load(name, split="test")`
 
 Memory-map a model's forecast; `quantiles` is None for point-only models.
 
-#### `available(split='test')`
+#### `available(split="test")`
 
 Names of all models with a stored forecast.
 
@@ -1150,7 +1150,7 @@ Calibrate every model's interval three ways; write coverage, width and interval 
 
 ## `scripts/build_api_reference.py`
 
-95 lines.
+113 lines.
 
 Regenerate docs/API_REFERENCE.md from the source code.
 
@@ -1167,22 +1167,29 @@ means a function added without updating the reference fails the test suite.
 | Name | Value |
 |---|---|
 | `ROOT` | `Path(__file__).resolve().parents[1]` |
-| `OUT` | `ROOT / 'docs' / 'API_REFERENCE.md'` |
-| `SOURCES` | `[ROOT / 'run.py'] + sorted((ROOT / 'src' / 'smokeshift').glob('*.py')) + [ROOT / 'scrip...` |
+| `OUT` | `ROOT / "docs" / "API_REFERENCE.md"` |
+| `SOURCES` | `[ROOT / "run.py"] + sorted((ROOT / "src" / "smokeshift").glob("*.py")) + [ ROOT / "scri...` |
 
-#### `_signature(node)`
+#### `_signature(node, source)`
 
 `name(arguments)` as written in the source.
 
-#### `_doc(node, indent='')`
+#### `_doc(node, indent="")`
 
 The docstring as indented markdown text, or a marker if there is none.
 
-#### `_constants(tree)`
+#### `_constants(tree, source)`
 
 Top-level names assigned in a module, with their source text when it is short.
 
-#### `_functions(body, prefix='')`
+The value is copied from the source file, not re-rendered from the syntax
+tree, so the output is the same on every Python version.
+
+#### `_arguments(node, source)`
+
+The argument list of a function exactly as written, on one line.
+
+#### `_functions(body, source, prefix="")`
 
 Markdown for every function and class in a body, in source order, recursing into classes.
 
@@ -1196,7 +1203,7 @@ Write the reference, or with --check compare it with what is on disk.
 
 ## `tests/test_smokeshift.py`
 
-183 lines.
+197 lines.
 
 Checks on the benchmark protocol. They run on a small synthetic panel, so
 no download is needed:
@@ -1219,59 +1226,59 @@ A small panel with a daily cycle, one travelling 'plume' and missing readings.
 
 #### `corrupt_after(bench, cut)`
 
-*(no docstring)*
+A copy of the panel with every value after hour `cut` replaced by huge random numbers.
 
 #### `same(a, b)`
 
-*(no docstring)*
+Assert two arrays are identical, treating NaN as equal to NaN.
 
 #### `test_tabular_features_ignore_the_future()`
 
-*(no docstring)*
+Tree features at or before the cut-off must not change when the future is corrupted.
 
 #### `test_spatial_features_ignore_the_future()`
 
-*(no docstring)*
+Neighbour features and channels at or before the cut-off must not change either.
 
 #### `test_naive_forecasts_ignore_the_future()`
 
-*(no docstring)*
+The three reference forecasts must depend only on the past.
 
 #### `test_transformer_inputs_ignore_the_future()`
 
-*(no docstring)*
+The transformer's inputs, covariates and anchor must depend only on the past.
 
 #### `test_targets_are_strictly_after_the_issue_time()`
 
-*(no docstring)*
+Targets run from one hour to 48 hours after the issue time; the context ends at it.
 
 #### `test_real_splits_do_not_overlap()`
 
-*(no docstring)*
+On the real panel, train, validation and test target windows are disjoint and in order.
 
 #### `test_fill_context_only_looks_back()`
 
-*(no docstring)*
+Gap filling carries earlier values forward; only a leading gap takes the first reading.
 
 #### `test_adaptive_conformal_recovers_coverage_after_a_shift()`
 
-*(no docstring)*
+When noise triples half way, adaptive intervals return to 80% coverage and static ones do not.
 
 #### `test_pinball_and_interval_score()`
 
-*(no docstring)*
+The quantile loss and the interval score match hand calculations.
 
 #### `test_benjamini_hochberg_known_values()`
 
-*(no docstring)*
+The false-discovery-rate adjustment matches a worked example.
 
 #### `test_panel_storage_round_trip()`
 
-*(no docstring)*
+Saving and loading the panel changes values by at most the 0.1 rounding.
 
 #### `test_distance_matrix()`
 
-*(no docstring)*
+Distances and bearings match known values for one degree of latitude and longitude at 40N.
 
 #### `test_api_reference_is_current()`
 

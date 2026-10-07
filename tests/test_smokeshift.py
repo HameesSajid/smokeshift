@@ -35,6 +35,7 @@ def synthetic_bench(n_sites=14, n_days=150, seed=0):
 
 
 def corrupt_after(bench, cut):
+    """A copy of the panel with every value after hour `cut` replaced by huge random numbers."""
     v = bench.values.copy()
     v[:, cut + 1:] = np.random.default_rng(1).normal(1e5, 1e4, v[:, cut + 1:].shape)
     return Bench(v, bench.hours, bench.stations)
@@ -45,10 +46,12 @@ T_IDX = np.arange(L + 30, CUT + 1, 24)          # issue times at or before the c
 
 
 def same(a, b):
+    """Assert two arrays are identical, treating NaN as equal to NaN."""
     np.testing.assert_array_equal(np.nan_to_num(a, nan=-999.0), np.nan_to_num(b, nan=-999.0))
 
 
 def test_tabular_features_ignore_the_future():
+    """Tree features at or before the cut-off must not change when the future is corrupted."""
     clean = synthetic_bench()
     dirty = corrupt_after(clean, CUT)
     for use_spatial in (False, True):
@@ -64,6 +67,7 @@ def test_tabular_features_ignore_the_future():
 
 
 def test_spatial_features_ignore_the_future():
+    """Neighbour features and channels at or before the cut-off must not change either."""
     clean = synthetic_bench()
     dirty = corrupt_after(clean, CUT)
     same(spatial.features(clean, T_IDX)[0], spatial.features(dirty, T_IDX)[0])
@@ -72,6 +76,7 @@ def test_spatial_features_ignore_the_future():
 
 
 def test_naive_forecasts_ignore_the_future():
+    """The three reference forecasts must depend only on the past."""
     clean = synthetic_bench()
     dirty = corrupt_after(clean, CUT)
     same(naive.persistence(clean, T_IDX), naive.persistence(dirty, T_IDX))
@@ -81,6 +86,7 @@ def test_naive_forecasts_ignore_the_future():
 
 
 def test_transformer_inputs_ignore_the_future():
+    """The transformer's inputs, covariates and anchor must depend only on the past."""
     try:
         from smokeshift import neural
     except ImportError:
@@ -97,6 +103,7 @@ def test_transformer_inputs_ignore_the_future():
 
 
 def test_targets_are_strictly_after_the_issue_time():
+    """Targets run from one hour to 48 hours after the issue time; the context ends at it."""
     b = synthetic_bench()
     y = b.targets(T_IDX)
     assert y.shape == (b.n_sites, len(T_IDX), H)
@@ -106,6 +113,7 @@ def test_targets_are_strictly_after_the_issue_time():
 
 
 def test_real_splits_do_not_overlap():
+    """On the real panel, train, validation and test target windows are disjoint and in order."""
     if not (config.PROCESSED / "panel.npz").exists():
         return
     b = Bench.load()
@@ -116,11 +124,13 @@ def test_real_splits_do_not_overlap():
 
 
 def test_fill_context_only_looks_back():
+    """Gap filling carries earlier values forward; only a leading gap takes the first reading."""
     x = np.array([[np.nan, 1.0, np.nan, np.nan, 4.0, np.nan]])
     np.testing.assert_array_equal(fill_context(x), [[1.0, 1.0, 1.0, 1.0, 4.0, 4.0]])
 
 
 def test_adaptive_conformal_recovers_coverage_after_a_shift():
+    """When noise triples half way, adaptive intervals return to 80% coverage and static ones do not."""
     rng = np.random.default_rng(0)
     S, D = 40, 400
     sd = np.where(np.arange(D) < 200, 1.0, 3.0)[None, :, None]       # noise triples half way
@@ -134,6 +144,7 @@ def test_adaptive_conformal_recovers_coverage_after_a_shift():
 
 
 def test_pinball_and_interval_score():
+    """The quantile loss and the interval score match hand calculations."""
     y = np.array([[[10.0]]])
     q = np.tile(np.array(config.QUANTILES) * 20, (1, 1, 1, 1))        # deciles 2, 4, ..., 18
     manual = np.mean([max(a * (10 - v), (a - 1) * (10 - v)) for a, v in zip(config.QUANTILES, q[0, 0, 0])])
@@ -144,11 +155,13 @@ def test_pinball_and_interval_score():
 
 
 def test_benjamini_hochberg_known_values():
+    """The false-discovery-rate adjustment matches a worked example."""
     p = np.array([0.01, 0.04, 0.03, 0.005])
     np.testing.assert_allclose(eda.benjamini_hochberg(p), [0.02, 0.04, 0.04, 0.02])
 
 
 def test_panel_storage_round_trip():
+    """Saving and loading the panel changes values by at most the 0.1 rounding."""
     b = synthetic_bench(n_sites=5, n_days=10)
     old = config.PROCESSED
     try:
@@ -162,6 +175,7 @@ def test_panel_storage_round_trip():
 
 
 def test_distance_matrix():
+    """Distances and bearings match known values for one degree of latitude and longitude at 40N."""
     d, bearing = spatial.distances_and_bearings(np.array([40.0, 40.0, 41.0]), np.array([-90.0, -89.0, -90.0]))
     assert abs(d[0, 1] - 85.2) < 1.0 and abs(d[0, 2] - 111.2) < 1.0      # 1 degree of longitude / latitude at 40N
     assert abs(bearing[0, 2]) < 1.0 and abs(bearing[0, 1] - 90) < 1.0     # north, east

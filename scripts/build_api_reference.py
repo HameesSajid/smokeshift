@@ -18,9 +18,9 @@ SOURCES = [ROOT / "run.py"] + sorted((ROOT / "src" / "smokeshift").glob("*.py"))
     ROOT / "scripts" / "build_api_reference.py", ROOT / "tests" / "test_smokeshift.py"]
 
 
-def _signature(node):
+def _signature(node, source):
     """`name(arguments)` as written in the source."""
-    return f"{node.name}({ast.unparse(node.args)})"
+    return f"{node.name}({_arguments(node, source)})"
 
 
 def _doc(node, indent=""):
@@ -31,30 +31,48 @@ def _doc(node, indent=""):
     return "\n".join(f"{indent}{line}".rstrip() for line in doc.split("\n")) + "\n"
 
 
-def _constants(tree):
-    """Top-level names assigned in a module, with their source text when it is short."""
+def _constants(tree, source):
+    """Top-level names assigned in a module, with their source text when it is short.
+
+    The value is copied from the source file, not re-rendered from the syntax
+    tree, so the output is the same on every Python version.
+    """
     rows = []
     for node in tree.body:
         if isinstance(node, ast.Assign) and all(isinstance(t, ast.Name) for t in node.targets):
             names = ", ".join(t.id for t in node.targets)
             if names.isupper() or names in {"print"}:
-                value = ast.unparse(node.value)
+                value = " ".join((ast.get_source_segment(source, node.value) or "").split())
                 rows.append((names, value if len(value) <= 90 else value[:87] + "..."))
     return rows
 
 
-def _functions(body, prefix=""):
+def _arguments(node, source):
+    """The argument list of a function exactly as written, on one line."""
+    lines = source.splitlines()
+    text = " ".join(lines[node.lineno - 1:node.body[0].lineno - 1]) if node.body[0].lineno > node.lineno \
+        else lines[node.lineno - 1]
+    start = text.index("(", text.index(f"def {node.name}")) + 1
+    depth, end = 1, start
+    while depth:                                   # find the bracket that closes the argument list
+        depth += {"(": 1, "[": 1, "{": 1, ")": -1, "]": -1, "}": -1}.get(text[end], 0)
+        end += 1
+    return " ".join(text[start:end - 1].split())
+
+
+def _functions(body, source, prefix=""):
     """Markdown for every function and class in a body, in source order, recursing into classes."""
     parts = []
     for node in body:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            parts.append(f"#### `{prefix}{_signature(node)}`\n\n{_doc(node)}")
+            parts.append(f"#### `{prefix}{_signature(node, source)}`\n\n{_doc(node)}")
             nested = [n for n in node.body if isinstance(n, ast.FunctionDef)]
             for inner in nested:
-                parts.append(f"- nested helper `{_signature(inner)}`: {(ast.get_docstring(inner) or '').splitlines()[0]}\n")
+                first_line = (ast.get_docstring(inner) or "").splitlines()[0]
+                parts.append(f"- nested helper `{_signature(inner, source)}`: {first_line}\n")
         elif isinstance(node, ast.ClassDef):
             parts.append(f"#### class `{prefix}{node.name}`\n\n{_doc(node)}")
-            parts.append(_functions(node.body, prefix=f"{node.name}."))
+            parts.append(_functions(node.body, source, prefix=f"{node.name}."))
     return "\n".join(parts)
 
 
@@ -64,16 +82,16 @@ def build():
            "Generated from the source by `python scripts/build_api_reference.py`. Do not edit by hand.",
            "For the narrative explanation of how the pieces fit together, read `CODE_GUIDE.md` first.", ""]
     for path in SOURCES:
-        tree = ast.parse(path.read_text(encoding="utf-8"))
+        source = path.read_text(encoding="utf-8")
+        tree = ast.parse(source)
         rel = path.relative_to(ROOT).as_posix()
-        n_lines = len(path.read_text(encoding="utf-8").splitlines())
-        out += [f"## `{rel}`", "", f"{n_lines} lines.", "", _doc(tree)]
-        constants = _constants(tree)
+        out += [f"## `{rel}`", "", f"{len(source.splitlines())} lines.", "", _doc(tree)]
+        constants = _constants(tree, source)
         if constants:
             out += ["**Constants**", "", "| Name | Value |", "|---|---|"]
             out += [f"| `{name}` | `{value.replace('|', chr(92) + '|')}` |" for name, value in constants]
             out.append("")
-        out.append(_functions(tree.body))
+        out.append(_functions(tree.body, source))
     return "\n".join(out).rstrip() + "\n"
 
 
