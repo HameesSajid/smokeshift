@@ -12,14 +12,14 @@ Paths are relative to the project folder, `C:\Users\hamee\vscode\smokeshift`.
 
 | # | What | Where | Size | In git? | Safe to delete? |
 |---|---|---|---|---|---|
-| 1 | Code, documents, results, cleaned data panel | the folder itself | 30 MB | yes | It is the project |
+| 1 | Code, documents, results, cleaned data panel | the folder itself | 27 MB | yes | It is the project |
 | 2 | Python environment | `.venv\` | 5.0 GB | no | Yes. `scripts\setup_env.ps1` rebuilds it |
 | 3 | Raw EPA downloads and map outline | `.cache\raw\` | 0.27 GB | no | Yes. `python run.py download` fetches them again |
 | 4 | Stored forecasts of every model | `.cache\forecasts\` | 7.9 GB | no | Yes, but rescoring then needs the models rerun |
 | 5 | Trained model files | `.cache\models\` | 0.23 GB | no | Yes. Retraining recreates them |
 | 6 | Pretrained weights | `.cache\huggingface\` | 2.1 GB | no | Yes. Downloaded again on next use |
 
-Total on disk: about 15.5 GB, of which 30 MB is in the repository.
+Total on disk: about 15.5 GB, of which 27 MB is in the repository.
 
 The companion project from the first phase of this work is a separate folder, `C:\Users\hamee\vscode\air_sensor_trust`
 (8 MB). It has no environment or cache of its own.
