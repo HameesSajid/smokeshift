@@ -1,7 +1,8 @@
 # What is installed and stored, where, and how to remove it
 
 This is the complete list of everything the project puts on a computer. It is updated whenever something is
-installed, downloaded or moved. Sizes were measured on 2026-10-07 after a full run of all 14 methods.
+installed, downloaded, stored or moved, and the log at the end records each change with its date. Sizes were
+measured on 2026-10-08 after a full run of all 16 methods and the seed experiment.
 
 **Everything is inside the project folder.** Nothing is installed into your normal Python, and no system setting
 is changed. Deleting the project folder removes all of it.
@@ -15,11 +16,11 @@ Paths are relative to the project folder, `C:\Users\hamee\vscode\smokeshift`.
 | 1 | Code, documents, results, cleaned data panel | the folder itself | 27 MB | yes | It is the project |
 | 2 | Python environment | `.venv\` | 5.0 GB | no | Yes. `scripts\setup_env.ps1` rebuilds it |
 | 3 | Raw EPA downloads and map outline | `.cache\raw\` | 0.27 GB | no | Yes. `python run.py download` fetches them again |
-| 4 | Stored forecasts of every model | `.cache\forecasts\` | 7.9 GB | no | Yes, but rescoring then needs the models rerun |
+| 4 | Stored forecasts of every model | `.cache\forecasts\` | 9.3 GB | no | Yes, but rescoring then needs the models rerun |
 | 5 | Trained model files | `.cache\models\` | 0.23 GB | no | Yes. Retraining recreates them |
 | 6 | Pretrained weights | `.cache\huggingface\` | 2.1 GB | no | Yes. Downloaded again on next use |
 
-Total on disk: about 15.5 GB, of which 27 MB is in the repository.
+Total on disk: about 17 GB, of which 27 MB is in the repository.
 
 The companion project from the first phase of this work is a separate folder, `C:\Users\hamee\vscode\air_sensor_trust`
 (8 MB). It has no environment or cache of its own.
@@ -62,9 +63,23 @@ Checksums of the EPA files are in `data/processed/raw_manifest.json`.
 
 ### 4 and 5. Forecasts and trained models
 
-`.cache\forecasts\test\<model name>\` holds `point.npy`, `quantiles.npy` and `info.json` for each of the 14
-methods: about 0.75 GB for each of the eleven that give quantiles and 0.07 GB for each of the three naive ones.
+`.cache\forecasts\test\<model name>\` holds `point.npy`, `quantiles.npy` and `info.json` for each of the 16
+methods: about 0.7 GB for each of the thirteen that give quantiles and 0.07 GB for each of the three naive ones.
 `.cache\models\` holds the three XGBoost models (`.json`) and the two transformer weight files (`.pt`).
+
+The seed experiment (`python run.py seeds`) trains ten more transformers but stores none of them: each run is
+scored and discarded, and only two small tables are kept, `outputs/tables/seed_runs.csv` and
+`outputs/tables/seed_summary.csv` (in the repository, a few kilobytes). It does not touch the weight files in
+`.cache\models\`.
+
+To free space without losing the ability to rescore everything else, delete single models. Each line frees
+about 0.7 GB, and `python run.py foundation` puts that model back:
+
+```powershell
+Remove-Item -Recurse -Force ".cache\forecasts\test\TimesFM (long context)"
+Remove-Item -Recurse -Force ".cache\forecasts\test\Chronos-Bolt (long context)"
+Remove-Item -Recurse -Force ".cache\forecasts\test\Chronos-2 (long context)"
+```
 
 ### 6. Pretrained weights (`.cache\huggingface`)
 
@@ -76,6 +91,8 @@ in a shared cache elsewhere on the computer.
 | Chronos-Bolt (base) | `amazon/chronos-bolt-base` | 0.76 GB |
 | Chronos-2 | `amazon/chronos-2` | 0.45 GB |
 | TimesFM 2.5 (200M) | `google/timesfm-2.5-200m-pytorch` | 0.86 GB |
+
+The long-context variants use these same three files with a longer input, so they needed no further download.
 
 ## Things that were already on this computer and were not created by this project
 
@@ -94,13 +111,13 @@ Run these in PowerShell from the project folder. Each line is independent.
 # The Python environment (5.0 GB)
 Remove-Item -Recurse -Force .venv
 
-# Everything regenerable: downloads, forecasts, trained models, pretrained weights (10.5 GB)
+# Everything regenerable: downloads, forecasts, trained models, pretrained weights (11.9 GB)
 Remove-Item -Recurse -Force .cache
 
 # Only the pretrained weights (2.1 GB), keeping results
 Remove-Item -Recurse -Force .cache\huggingface
 
-# Only the stored forecasts (7.9 GB), keeping everything else
+# Only the stored forecasts (9.3 GB), keeping everything else
 Remove-Item -Recurse -Force .cache\forecasts
 ```
 
@@ -120,7 +137,7 @@ The project uses the GPU automatically when it can:
 | Stage | Uses the GPU when | Otherwise |
 |---|---|---|
 | `tune`, `gbm`, `alerts` | XGBoost reports CUDA support | CPU, with fewer boosting rounds |
-| `neural` | PyTorch was installed with CUDA (it is, in `.venv`) | CPU, with a smaller model |
+| `neural`, `seeds` | PyTorch was installed with CUDA (it is, in `.venv`) | CPU, with a smaller model |
 | `foundation` | PyTorch was installed with CUDA | CPU, impractically slow |
 
 So to run on the GPU, use the environment's Python:
@@ -135,7 +152,8 @@ To confirm the GPU is being used: `.venv\Scripts\python -c "import torch; print(
 should print `True` and the name of the card, and `nvidia-smi` shows the load while a stage runs.
 
 Measured on the GTX 1660 Ti (6 GB): training both transformers takes 6 minutes on the GPU. The smaller CPU version
-took about 28 minutes. XGBoost trains about ten times faster on the GPU than on the CPU.
+took about 28 minutes. XGBoost trains about ten times faster on the GPU than on the CPU. All six foundation-model
+variants take about three hours, and the ten seed runs about half an hour.
 
 ## Log
 
@@ -150,3 +168,6 @@ took about 28 minutes. XGBoost trains about ten times faster on the GPU than on 
 | 2026-10-07 | Moved both project folders from the OneDrive course folder to `C:\Users\hamee\vscode` |
 | 2026-10-07 | Moved the cache from `C:\Users\hamee\.cache\smokeshift` to `.cache` inside the project |
 | 2026-10-07 | Rebuilt the environment as `.venv` inside the project and removed the old one at `C:\Users\hamee\.venvs\smokeshift` |
+| 2026-10-08 | Stored forecasts for two more variants, TimesFM (long context) and Chronos-Bolt (long context), in `.cache\forecasts\test\` (0.7 GB each). The commands that remove them are in section "4 and 5" above |
+| 2026-10-08 | Ran the seed experiment. It added two small tables to `outputs/tables/` and nothing to `.cache` |
+| 2026-10-08 | Nothing was installed and nothing was downloaded: `.venv` and `.cache\huggingface` are unchanged |

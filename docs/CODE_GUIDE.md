@@ -54,6 +54,7 @@ ensemble   forecast store           ->  forecast store: Ensemble
 evaluate   forecast store + panel   ->  scores_*.csv, mae_by_horizon_*.csv, bias_by_outcome.csv, bootstrap
 uncertainty forecast store + panel  ->  intervals.csv, intervals_monthly.csv
 alerts     forecast store + panel   ->  alerts.csv, alerts_detail.json
+seeds      panel                    ->  seed_runs.csv, seed_summary.csv (five training seeds per transformer)
 figures    tables + forecast store  ->  figures 06-13
 report     tables + figures         ->  outputs/report.html
 dashboard  tables + forecast store  ->  dashboard/data.js, states.js, index.html
@@ -249,8 +250,7 @@ and they reached the same validation loss.
 
 `MODELS` lists six configurations: Chronos-Bolt and Chronos-2 from Amazon and TimesFM 2.5 from Google, each with
 the shared 168-hour context and with a 512-hour "long context" that checks whether the one-week budget holds the
-model back. `DEFAULT` names the ones a plain `python run.py foundation` runs; the environment variable
-`SMOKESHIFT_FM` selects others.
+model back. A plain `python run.py foundation` runs all six; the environment variable `SMOKESHIFT_FM` selects a subset.
 
 `_batches` yields the eligible windows in batches. `_chronos` loads a Chronos checkpoint from the Hugging Face Hub
 and asks for the nine quantiles; Chronos-Bolt takes a tensor and Chronos-2 a list of series, and both accept
@@ -310,7 +310,23 @@ by the mean of its forecast over the day, and persistence by the last 24-hour me
 the share of events caught when half of all alerts must be correct. `reliability` compares predicted probabilities
 with observed frequencies.
 
-### 4.15 `figures.py`, `plotting.py`, `report.py`, `export.py`
+### 4.15 `seeds.py`: how much of a result is luck
+
+A neural network trained twice with different random seeds gives two slightly different models. Until that
+spread is known, a small gap between two models cannot be called a difference.
+
+`neural.fit` takes a `seed` that sets the weight initialisation and the order of training windows; the validation
+sample is the same for every seed, so runs differ only in what the seed is meant to vary. `seeds.run` trains each
+transformer variant with five seeds, forecasts the whole test period with each, and passes the result to
+`score_run`, which computes the same scores as the leaderboard (MAE and quantile loss overall, calm at issue and
+smoke at issue) plus the day-ahead alert PR-AUC for all days and for onsets. `summarise` reduces the runs to mean,
+standard deviation and range per model and metric.
+
+The extra forecasts are scored and then discarded, since each would take 0.75 GB; only the two small tables are
+kept. The leaderboard entry for each variant remains the single run stored by the `neural` stage, and the report
+reads the leaderboard gaps against the seed spread.
+
+### 4.16 `figures.py`, `plotting.py`, `report.py`, `export.py`
 
 `plotting.py` defines one chart style and a fixed colour per model family, so a model has the same colour in every
 figure. `figures.py` draws the eight result charts from the tables. `report.py` reads every table, computes the
@@ -318,7 +334,7 @@ numbers quoted in the text, and writes one self-contained HTML page with the fig
 the data bundle for the dashboard: all monitors, the result tables, and for 60 featured monitors the observations
 and each model's day-ahead forecasts from late May to early July 2023.
 
-### 4.16 `pipeline.py` and `run.py`
+### 4.17 `pipeline.py` and `run.py`
 
 `pipeline.STAGES` maps each stage name to a title and a function. `run.py` reads names from the command line and
 runs them in order; `all` runs every stage. Stages that need optional packages import them inside the function,
@@ -343,6 +359,7 @@ plume, 3% missing), so the tests need no download and run in seconds.
 | `test_benjamini_hochberg_known_values` | The FDR procedure matches a worked example |
 | `test_panel_storage_round_trip` | Saving and loading the panel loses at most rounding to 0.1 |
 | `test_distance_matrix` | Distances and bearings match known values |
+| `test_seed_summary_statistics` | The seed summary reports the right mean, standard deviation, range and run count |
 | `test_api_reference_is_current` | `docs/API_REFERENCE.md` matches the code |
 
 The first four are the ones that make the results trustworthy: they would fail if any model input could see the
@@ -379,6 +396,7 @@ future.
 | `evaluation_summary.json` | models, issue days, cells scored |
 | `intervals.csv`, `intervals_monthly.csv` | coverage, width and interval score by model, method, slice and month |
 | `alerts.csv`, `alerts_detail.json` | alert skill per method; classifier training details and reliability |
+| `seed_runs.csv`, `seed_summary.csv` | scores of every seed run of the transformers; their mean, standard deviation and range |
 | `figures.json` | names of the result figures |
 
 `outputs/figures/` holds thirteen PNG charts, numbered in the order they appear in the report.

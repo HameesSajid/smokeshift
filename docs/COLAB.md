@@ -19,6 +19,8 @@ Measured on the GTX 1660 Ti:
 | Chronos-2, 168-hour context | 14 minutes | same |
 | TimesFM 2.5, 168-hour context | 33 minutes | same |
 | Chronos-2, 512-hour context | 34 minutes | same |
+| Chronos-Bolt and TimesFM, 512-hour context | 67 and 73 minutes, measured while two jobs shared the GPU | same |
+| Ten transformer runs for the seed experiment | 86 minutes while sharing the GPU; about 30 alone | number of runs |
 
 Two results here are themselves reasons not to expect much from more compute.
 
@@ -32,21 +34,21 @@ What every method lacks is information about smoke that has not arrived yet, and
 
 ## Where a Colab GPU would help
 
-In order of how much each would add to the project:
+Two things that were on this list have since been done on the laptop: five random seeds per transformer, and all
+six foundation-model variants. Together they took about three hours of GPU time overnight. What remains, in order
+of how much each would add:
 
-1. **Several random seeds.** Training the transformer five times with different seeds would put an interval on
-   its score, so that "trees and transformer tie" becomes a statement with error bars. At six minutes each this is
-   feasible on the laptop too; Colab just makes it painless.
-2. **All six foundation-model variants.** Three models with two context lengths each is about two and a half hours
-   on the laptop. The long-context run already done shows it matters: Chronos-2 improved by 3.6% with three weeks
-   of history instead of one. TimesFM and Chronos-Bolt have not been run with the long context.
-3. **A larger transformer and a wider search.** More layers, longer context, a sweep over learning rates. Useful
-   mainly to confirm that size is not the limit.
-4. **Fine-tuning a foundation model** on the training period. This needs more memory than 6 GB for comfortable
+1. **A longer context for the trained models.** Three weeks of history improved every foundation model by about
+   3%. The trees and the transformer still see one week. Giving them three would show whether the same gain is
+   available to them, and needs retraining with larger inputs.
+2. **A larger transformer and a wider search.** More layers, a sweep over learning rates. Useful mainly to confirm
+   that size is not the limit.
+3. **Fine-tuning a foundation model** on the training period. This needs more memory than 6 GB for comfortable
    batch sizes and is the first thing here that the laptop cannot do well.
-5. **A graph neural network** over the monitor network.
+4. **A graph neural network** over the monitor network.
+5. **More seeds, and seeds for the tree models.** Five runs give a usable spread; twenty would give a tighter one.
 
-Items 1 and 2 need no new code. Items 3 to 5 are new work.
+All of these are new work except the last, which is `python run.py seeds` with a longer list in `seeds.SEEDS`.
 
 ## What you need to do
 
@@ -58,9 +60,8 @@ Items 1 and 2 need no new code. Items 3 to 5 are new work.
    token with read access to this one repository, and add it in Colab's **Secrets** panel (the key icon) under the
    name `GITHUB_TOKEN`, with notebook access switched on. If the repository is public, skip this step.
 4. Run the cells from top to bottom. In section 2 run only one of the two storage cells.
-5. To run the two variants that are still missing, set the list in the foundation-model cell to
-   `"TimesFM (long context)", "Chronos-Bolt (long context)"`. The other models' forecasts are not in the
-   repository, so for a full comparison leave the list as it is and run every cell.
+5. Forecasts are not stored in the repository, so for a full comparison leave the model list in the
+   foundation-model cell as it is and run every cell. Remove names from it to save time.
 6. The last cell downloads `smokeshift_results.zip`. Unzip it over the project folder on your computer, then
    commit and push.
 
@@ -80,5 +81,5 @@ The cleaned panel (17 MB) is in the repository, so the EPA download and the pane
 Results from different machines are not bit-for-bit identical. GPU arithmetic, library versions and the order of
 floating-point operations differ. The two transformer runs in this project, on different hardware and with
 different model sizes, differed by 0.01 µg/m³ in overall error. Differences of that size between a laptop run and
-a Colab run are not findings. This is another reason item 1 above, several seeds, is the most valuable use of
-extra compute.
+a Colab run are not findings. The seed experiment puts a number on this: across five seeds the transformer's
+overall error has a standard deviation of 0.02 µg/m³.

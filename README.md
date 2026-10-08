@@ -2,7 +2,7 @@
 
 **Which forecasts survive wildfire smoke?**
 
-A benchmark of 14 forecasting methods on 538 US air quality monitors. Every model is fixed using data from
+A benchmark of 16 forecasting methods on 538 US air quality monitors. Every model is fixed using data from
 before the record 2023 wildfire-smoke season and then tested through it: naive rules, gradient-boosted trees, a
 transformer written in PyTorch, and zero-shot foundation models from Amazon and Google.
 
@@ -48,42 +48,48 @@ All numbers come from the tables in `outputs/tables/`, which the pipeline writes
    2023 and 0.6 times in 2024.
 
 2. **Models trained on the data beat every naive rule.** The best single model has 13% lower error than damped
-   persistence, with a day-block bootstrap interval of 12% to 14%. Gradient-boosted trees and the transformer tie
-   overall (3.51 and 3.52 µg/m³). Averaging the two, with nothing fitted, is best (3.46).
+   persistence, with a day-block bootstrap interval of 12% to 14%. Averaging the trees and the transformer, with
+   nothing fitted, is best (3.46 µg/m³).
 
-3. **How the test set is sliced decides who wins.** Scored only on hours that turned out to be elevated, plain
-   persistence ranks 1st of 14. Scored on a stratum known at forecast time (smoke present in the previous 24
-   hours), it ranks 13th. Same forecasts. Selecting on the outcome rewards any forecast that leans high, which is
+3. **Trees and transformer tie, and that is measured, not assumed.** Each transformer was trained with five
+   random seeds. With neighbours its overall error is 3.53 ± 0.02 µg/m³ (range 3.51 to 3.56), and the tree model's
+   3.51 falls inside that range. With smoke present the transformer is better in every run (8.96 to 9.27 against
+   9.66), so that advantage is real.
+
+4. **How the test set is sliced decides who wins.** Scored only on hours that turned out to be elevated, plain
+   persistence ranks 1st of 16. Scored on a stratum known at forecast time (smoke present in the previous 24
+   hours), it ranks 15th. Same forecasts. Selecting on the outcome rewards any forecast that leans high, which is
    known as the forecaster's dilemma, so every ranking here uses forecast-time strata.
 
    ![Leaderboard in three forecast-time strata](outputs/figures/06_leaderboard.png)
 
-4. **Zero-shot foundation models beat naive rules but not local training.** With the same 168 hours of input and
+5. **Zero-shot foundation models beat naive rules but not local training.** With the same 168 hours of input and
    no training, Google's TimesFM has 6% lower error than damped persistence and 4.5% higher error than the best
    model trained here on the same information. Amazon's Chronos-2 is 3% better than damped persistence, and the
-   older Chronos-Bolt only matches it. Given three weeks of history instead of one, Chronos-2 improves by 3.6% and
-   draws level with TimesFM. One caution: these models were released in 2024 and 2025 and may have been pretrained
-   on series from the test years.
+   older Chronos-Bolt only matches it. Three weeks of history instead of one improves all three by about 3%, and
+   brings TimesFM to within 1.5% of the trained model that sees one week. One caution: these models were released
+   in 2024 and 2025 and may have been pretrained on series from the test years.
 
-5. **Neighbours matter most where history is silent.** Adding what surrounding monitors are reading improves
+6. **Neighbours matter most where history is silent.** Adding what surrounding monitors are reading improves
    average error by about 3%, but improves skill at warning that a clean day will turn unhealthy by a factor of
-   1.7 (PR-AUC). At 50% precision, methods that see only one monitor's history, foundation models included, catch
-   at most 11% of such onsets. The transformer with neighbours catches 22%.
+   1.7 (PR-AUC). Across five seeds that skill is 0.26 ± 0.02 with neighbours and 0.14 ± 0.02 without; every run
+   with neighbours beats every run without. At 50% precision, methods that see only one monitor's history,
+   foundation models included, catch at most 11% of such onsets. The transformer with neighbours catches 22%.
 
-6. **Calibrated on average is not warned.** Raw 80% intervals cover 79%. Adaptive conformal calibration restores
+7. **Calibrated on average is not warned.** Raw 80% intervals cover 79%. Adaptive conformal calibration restores
    80.0% overall and 79% with smoke present. But of the hours that became onsets, no method's interval contained
    more than 8%.
 
-7. **More compute did not buy accuracy.** The transformer was trained twice: 1.1 million parameters on the CPU and
-   1.6 million on the GPU. Both reached the same validation loss. Adding two foundation models to the ensemble
-   made it slightly worse (3.46 to 3.54). The limit is information, not model size.
+8. **More compute did not buy accuracy.** The transformer was trained at two sizes: 1.1 million parameters on the
+   CPU and 1.6 million on the GPU. Both reached the same validation loss. Adding two foundation models to the
+   ensemble made it slightly worse (3.46 to 3.54). The limit is information, not model size.
 
-8. **A sound argument is not a result.** The tree models predict the change from the latest reading, on the
+9. **A sound argument is not a result.** The tree models predict the change from the latest reading, on the
    reasoning that trees trained on levels are capped at the highest level seen in training. The ablation confirms
    the cap on the most extreme hours and shows it makes no difference on average (0.4%).
 
-9. **Multiple testing at scale.** Testing 538 monitors for a weekday effect gives 58 "significant" results at
-   p < 0.05, against 27 expected by chance. False-discovery-rate control leaves 4.
+10. **Multiple testing at scale.** Testing 538 monitors for a weekday effect gives 58 "significant" results at
+    p < 0.05, against 27 expected by chance. False-discovery-rate control leaves 4.
 
 ![Philadelphia, June 2023: forecasts against what happened](outputs/figures/13_case_forecasts.png)
 
@@ -103,8 +109,10 @@ identical cells for every model. Lower is better.
 | XGBoost (level label) | 3.61 | 0.895 (0.884 to 0.907) | 0.372 | 9.65 |
 | Transformer | 3.62 | 0.897 (0.886 to 0.907) | 0.372 | 9.35 |
 | XGBoost | 3.63 | 0.898 (0.888 to 0.908) | 0.373 | 10.06 |
+| TimesFM (long context) | 3.67 | 0.910 (0.902 to 0.919) | 0.378 | 9.57 |
 | Chronos-2 (long context) | 3.78 | 0.937 (0.927 to 0.945) | 0.389 | 9.99 |
 | TimesFM | 3.78 | 0.937 (0.928 to 0.945) | 0.390 | 10.04 |
+| Chronos-Bolt (long context) | 3.89 | 0.964 (0.953 to 0.974) | 0.400 | 10.33 |
 | Chronos-2 | 3.92 | 0.972 (0.964 to 0.979) | 0.404 | 10.68 |
 | Chronos-Bolt | 4.02 | 0.995 (0.984 to 1.005) | 0.413 | 11.59 |
 | Damped persistence | 4.04 | 1.000 | n/a | 11.00 |
@@ -120,7 +128,7 @@ Yes, everything runs locally. All results in this repository were produced on a 
 1660 Ti. A GPU makes it faster but is not required for anything except the foundation models, which are
 impractically slow on a CPU.
 
-**What you need:** Python 3.10 or 3.11, Git, about 20 GB of free disk space for a full run (16 GB is used), and
+**What you need:** Python 3.10 or 3.11, Git, about 20 GB of free disk space for a full run (17 GB is used), and
 for the GPU stages an NVIDIA card with a current driver. The commands below are for Windows PowerShell.
 
 **Step 1. Get the code.**
@@ -147,7 +155,7 @@ python -m venv .venv
 .venv\Scripts\python -m pip install chronos-forecasting "timesfm[torch]"     # only for the foundation models
 ```
 
-**Step 3. Check that it works.** Thirteen checks run on a small synthetic panel in a few seconds.
+**Step 3. Check that it works.** Fourteen checks run on a small synthetic panel in a few seconds.
 
 ```powershell
 .venv\Scripts\python tests\test_smokeshift.py
@@ -167,7 +175,7 @@ straight away and rerun the light stages without training anything:
 to be run first. Either run everything:
 
 ```powershell
-.venv\Scripts\python run.py all             # about three hours on the laptop GPU
+.venv\Scripts\python run.py all             # four to five hours on the laptop GPU
 ```
 
 or go stage by stage, in this order:
@@ -176,8 +184,10 @@ or go stage by stage, in this order:
 .venv\Scripts\python run.py naive                      # reference forecasts, under a minute
 .venv\Scripts\python run.py gbm                        # three XGBoost models, 18 minutes on the GPU
 .venv\Scripts\python run.py neural                     # two transformers, 6 minutes on the GPU
-.venv\Scripts\python run.py foundation                 # Chronos and TimesFM, 90 minutes on the GPU
-.venv\Scripts\python run.py ensemble evaluate uncertainty alerts figures report dashboard
+.venv\Scripts\python run.py foundation                 # six Chronos and TimesFM runs, about three hours on the GPU
+.venv\Scripts\python run.py ensemble evaluate uncertainty alerts
+.venv\Scripts\python run.py seeds                      # five seeds per transformer, 30 minutes on the GPU
+.venv\Scripts\python run.py figures report dashboard
 ```
 
 `tune` (33 minutes) is optional: the chosen XGBoost settings are stored in `outputs/tables/gbm_tuning.json` and
@@ -187,7 +197,7 @@ are reused. `download` and `panel` are only needed to rebuild the data panel fro
 page. `outputs\tables\` holds every number.
 
 **Where things are stored.** Everything lives inside the project folder. `.venv` is the environment (5 GB) and
-`.cache` holds raw downloads, stored forecasts, trained models and pretrained weights (about 11 GB after a full
+`.cache` holds raw downloads, stored forecasts, trained models and pretrained weights (about 12 GB after a full
 run). Git ignores both. Deleting the project folder removes everything; `docs/INSTALLED.md` has the details and
 the commands to remove individual parts. To keep the cache on another drive, set the environment variable
 `SMOKESHIFT_CACHE` before running.
@@ -235,11 +245,12 @@ Measured on a laptop with a GTX 1660 Ti (6 GB).
 | Tune the trees | `python run.py tune` | 33 min | GPU recommended |
 | Train the trees | `python run.py gbm` | 18 min | GPU recommended |
 | Train the transformers | `python run.py neural` | 6 min on GPU, 30 min on CPU | PyTorch |
-| Foundation models | `python run.py foundation` | 91 min | GPU, optional packages |
+| Foundation models | `python run.py foundation` | about 3 h for all six (91 min for the first four) | GPU, optional packages |
 | Ensembles | `python run.py ensemble` | under 1 min | |
 | Score everything | `python run.py evaluate` | 4 min | |
 | Intervals | `python run.py uncertainty` | 6 min | |
 | Alerts | `python run.py alerts` | 1 min | |
+| Seed spread | `python run.py seeds` | 30 min on an idle GPU | PyTorch, GPU recommended |
 | Charts, report, dashboard | `python run.py figures report dashboard` | under 1 min | |
 
 Stages are independent once their inputs exist. After adding or retraining a model, run
@@ -289,7 +300,7 @@ CUDA. Without a GPU the trees train with fewer rounds and the transformer uses a
 | Transformer + neighbours | The same, with two neighbour input channels |
 | Chronos-Bolt | Amazon's 2024 pretrained forecasting model, zero-shot, 168 hours of history |
 | Chronos-2 | Amazon's 2025 pretrained forecasting model, zero-shot, 168 hours of history |
-| Chronos-2 (long context) | Chronos-2 given 512 hours of history |
+| Chronos-Bolt (long context), Chronos-2 (long context), TimesFM (long context) | The same three models given 512 hours of history |
 | TimesFM | Google's pretrained forecasting model (version 2.5), zero-shot, 168 hours of history |
 | Ensemble | Equal-weight average of the two neighbour-aware trained models |
 | Ensemble + foundation | Those two plus Chronos-2 and TimesFM, membership fixed before scoring |
@@ -307,6 +318,7 @@ src/smokeshift/
   spatial.py, features.py   neighbour features and the tabular design
   gbm.py                    XGBoost quantile models, tuning, TreeSHAP
   neural.py                 patch transformer in PyTorch
+  seeds.py                  run-to-run spread over five training seeds
   foundation.py             zero-shot Chronos-Bolt, Chronos-2 and TimesFM
   store.py                  forecasts on disk, memory-mapped
   conformal.py              static and adaptive conformal intervals
@@ -331,7 +343,7 @@ data/processed/             the cleaned panel, monitor table and raw-file checks
 python tests/test_smokeshift.py      # or: pytest
 ```
 
-Thirteen checks run on a small synthetic panel in a few seconds. Four of them corrupt every value after a cut-off
+Fourteen checks run on a small synthetic panel in a few seconds. Four of them corrupt every value after a cut-off
 and assert that tree features, neighbour features, reference forecasts and transformer inputs before the cut-off
 do not change. The rest cover the split, gap filling, the scores, adaptive conformal coverage under a simulated
 shift, the multiple-testing procedure, storage, distances, and that `docs/API_REFERENCE.md` matches the code.
@@ -345,8 +357,8 @@ A GitHub Actions workflow runs them on every push.
 - **One shift.** Conclusions about behaviour under shift rest on one extraordinary season.
 - **Foundation-model pretraining is not fully documented** and may include the test years.
 - **"Elevated" is not always smoke.** Inversions, fireworks and dust also cross the threshold.
-- **One training run per neural model.** Differences of a few hundredths of a µg/m³ have not been tested against
-  run-to-run variation.
+- **Seed variation is measured for the transformer only** (five runs each). The tree models were each trained
+  once.
 
 `docs/CONCEPTS.md` lists, topic by topic, what was used, what else could be, and what is missing.
 

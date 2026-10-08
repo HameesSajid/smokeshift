@@ -142,6 +142,7 @@ left out on purpose: a model that memorises monitors cannot be moved to a new on
 | Masked loss for missing targets; mask channel for missing inputs | `neural.pinball_loss`, `neural.Windows` |
 | AdamW, one-cycle learning rate, gradient clipping, early stopping | `neural.fit` |
 | Multi-channel input for spatial context | `neural.Windows` |
+| Five random seeds per model, to measure run-to-run spread | `seeds.py` |
 
 **Could also be used:** recurrent networks (LSTM, GRU, DeepAR), temporal convolutional networks, N-BEATS and
 N-HiTS, the Temporal Fusion Transformer, linear models such as DLinear, graph neural networks, diffusion models
@@ -152,6 +153,11 @@ is the current reference architecture for this task. The original project used a
 more current and trains faster. The purpose is a fair comparison with trees under identical information, not a
 search for the best architecture. A linear baseline of the DLinear kind would be a cheap and informative addition,
 because published work has shown such models can match transformers; it is listed in section 12.
+
+Each transformer was trained five times with different seeds, because a single run cannot show whether a gap of
+a few hundredths of a µg/m³ is real. The spread turned out to be about 0.02 µg/m³ in overall error. That is
+enough to say the trees and the transformer are tied overall, and far too small to explain the gain from
+neighbours or the transformer's advantage when smoke is present.
 
 ## 8. Foundation models and transfer
 
@@ -170,7 +176,9 @@ Fine-tuning answers a different question (how good can they become with my data)
 with models trained from scratch. Three models from two laboratories are enough to see whether the result is
 about the approach or about one model. TimesFM and Chronos-2 land between the strongest naive rule and the
 models trained on this data on every fair slice, the older Chronos-Bolt only matches the naive rule, and the
-order of the three is the same on every fair slice. One limit cannot be removed by any method: the pretraining data of
+order of the three is the same on every fair slice. Three weeks of history instead of one improves each of them
+by about 3%, which brings the best (TimesFM) to within 1.5% of a model trained here on one week. One limit
+cannot be removed by any method: the pretraining data of
 these models are not fully documented and may include the test years.
 
 ## 9. Evaluation design
