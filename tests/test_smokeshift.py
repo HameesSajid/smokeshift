@@ -181,6 +181,20 @@ def test_distance_matrix():
     assert abs(bearing[0, 2]) < 1.0 and abs(bearing[0, 1] - 90) < 1.0     # north, east
 
 
+def test_seed_summary_statistics():
+    """The seed summary reports mean, sample standard deviation, range and run count per model and metric."""
+    try:
+        from smokeshift import seeds
+    except ImportError:
+        return                                  # PyTorch not installed: nothing to check
+    runs = pd.DataFrame({"model": ["A"] * 3 + ["B"] * 3, "seed": [1, 2, 3] * 2,
+                         "mae | All hours": [1.0, 2.0, 3.0, 5.0, 5.0, 5.0]})
+    out = seeds.summarise(runs).set_index("model")
+    assert out.loc["A", "mean"] == 2.0 and out.loc["A", "std"] == 1.0
+    assert out.loc["A", "min"] == 1.0 and out.loc["A", "max"] == 3.0 and out.loc["A", "runs"] == 3
+    assert out.loc["B", "std"] == 0.0
+
+
 def test_api_reference_is_current():
     """docs/API_REFERENCE.md must match what the generator produces from the code as it is now."""
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))

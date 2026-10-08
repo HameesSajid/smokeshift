@@ -563,7 +563,7 @@ scripts/setup_env.ps1). A model whose package is missing is skipped.
 |---|---|
 | `LONG_CONTEXT` | `512` |
 | `MODELS` | `{ "Chronos-Bolt": ("bolt", "amazon/chronos-bolt-base", config.CONTEXT), "Chronos-Bolt (...` |
-| `DEFAULT` | `["Chronos-2", "TimesFM", "Chronos-Bolt", "Chronos-2 (long context)"]` |
+| `DEFAULT` | `list(MODELS)` |
 
 #### `_batches(bench, t_idx, length, batch)`
 
@@ -779,7 +779,7 @@ Forecast every monitor and issue time, falling back to persistence where the pro
 
 ## `src/smokeshift/neural.py`
 
-235 lines.
+242 lines.
 
 A patch transformer for multi-horizon quantile forecasting, written in PyTorch.
 
@@ -853,9 +853,14 @@ All eligible (monitor, hour) issue pairs whose targets fall inside a split.
 
 Cut inputs, covariates, anchors, targets and target masks for the given pairs.
 
-#### `fit(bench, name, log=print)`
+#### `fit(bench, name, log=print, seed=config.SEED, save=True)`
 
 Train one variant with AdamW, a one-cycle schedule and early stopping; return the best model.
+
+`seed` sets the weight initialisation and the order of training windows.
+The validation sample is the same for every seed, so that runs differ
+only in what the seed is meant to vary. `save=False` leaves the stored
+weights of the main run untouched.
 
 #### `predict(bench, model, w, t_idx, batch=4096)`
 
@@ -917,7 +922,7 @@ Build and save the panel.
 
 ## `src/smokeshift/pipeline.py`
 
-125 lines.
+132 lines.
 
 The stages of the benchmark, in the order they run.
 
@@ -968,6 +973,10 @@ Next-day unhealthy-air alerts.
 
 Raw, static-conformal and adaptive-conformal intervals for every model.
 
+#### `seeds_stage(log=print)`
+
+Retrain the transformers with several random seeds and measure the spread of their scores.
+
 #### `figures_stage(log=print)`
 
 Draw the result charts.
@@ -1013,7 +1022,7 @@ Save a figure to outputs/figures and close it; returns the file name.
 
 ## `src/smokeshift/report.py`
 
-555 lines.
+616 lines.
 
 Builds outputs/report.html: one self-contained page with every result.
 
@@ -1053,6 +1062,41 @@ Read a CSV table from outputs/tables.
 #### `build(log=print)`
 
 Read every result table, compute the numbers quoted in the text and write the page.
+
+## `src/smokeshift/seeds.py`
+
+81 lines.
+
+How much does the transformer's score move from one training run to the next?
+
+A neural network trained twice with different random seeds gives two slightly
+different models. Until that spread is measured, a small gap between two
+models on a leaderboard cannot be called a difference. This stage trains each
+transformer variant with several seeds and scores every run on the same cells
+as the main benchmark, so the leaderboard gaps can be read against it.
+
+The forecasts of these extra runs are scored and then discarded (each would
+take 0.75 GB); only the score tables are kept. The leaderboard entry for each
+variant remains the single run stored by the `neural` stage.
+
+**Constants**
+
+| Name | Value |
+|---|---|
+| `SEEDS` | `[7, 11, 23, 37, 53]` |
+| `SLICES` | `["All hours", "Calm at issue", "Smoke at issue"]` |
+
+#### `score_run(point, quantiles, y, reg, scale, day1, base, calm, name="run")`
+
+Benchmark scores of one set of forecasts: MAE and WQL by slice, and day-1 alert PR-AUC.
+
+#### `summarise(runs)`
+
+Mean, standard deviation, minimum and maximum of every score, per model.
+
+#### `run(bench=None, log=print, seeds=SEEDS)`
+
+Train every transformer variant once per seed, score each run and write the two seed tables.
 
 ## `src/smokeshift/spatial.py`
 
@@ -1203,7 +1247,7 @@ Write the reference, or with --check compare it with what is on disk.
 
 ## `tests/test_smokeshift.py`
 
-197 lines.
+211 lines.
 
 Checks on the benchmark protocol. They run on a small synthetic panel, so
 no download is needed:
@@ -1279,6 +1323,10 @@ Saving and loading the panel changes values by at most the 0.1 rounding.
 #### `test_distance_matrix()`
 
 Distances and bearings match known values for one degree of latitude and longitude at 40N.
+
+#### `test_seed_summary_statistics()`
+
+The seed summary reports mean, sample standard deviation, range and run count per model and metric.
 
 #### `test_api_reference_is_current()`
 

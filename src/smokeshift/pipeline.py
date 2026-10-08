@@ -88,6 +88,12 @@ def uncertainty_stage(log=print):
     uncertainty.run(log=log)
 
 
+def seeds_stage(log=print):
+    """Retrain the transformers with several random seeds and measure the spread of their scores."""
+    from . import seeds
+    seeds.run(log=log)
+
+
 def figures_stage(log=print):
     """Draw the result charts."""
     from . import figures
@@ -119,6 +125,7 @@ STAGES = {
     "evaluate": ("Score every model on the common grid", evaluate_stage),
     "uncertainty": ("Prediction intervals: raw, static conformal, adaptive conformal", uncertainty_stage),
     "alerts": ("Next-day unhealthy-air alerts", alerts_stage),
+    "seeds": ("Run-to-run spread of the transformers over five random seeds", seeds_stage),
     "figures": ("Result charts", figures_stage),
     "report": ("Write outputs/report.html", report_stage),
     "dashboard": ("Export the data bundle for the interactive dashboard", dashboard_stage),

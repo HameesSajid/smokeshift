@@ -223,6 +223,7 @@ def build(log=print):
         ["Spatial statistics", "Great-circle distances, distance-binned correlogram, lagged cross-correlation, inverse-distance features"],
         ["Supervised learning", "Global gradient-boosted quantile regression on a GPU; random search on a held-out period"],
         ["Deep learning", "A patch transformer written in PyTorch: quantile loss, masking, early stopping"],
+        ["Run-to-run variation", "Each transformer trained with five random seeds and scored on the leaderboard cells, so gaps between models can be read against the spread"],
         ["Foundation models", "Zero-shot evaluation of pretrained forecasters on the same grid" if has_fm else "Zero-shot evaluation harness for pretrained forecasters (models not yet run)"],
         ["Ensembling", "Equal-weight quantile averaging across model families"],
         ["Evaluation design", "Fixed forecast grid, three scores, forecast-time strata, and the forecaster's dilemma shown on real data"],
@@ -249,8 +250,14 @@ def build(log=print):
         long_bits = [f"{m.replace(' (long context)', '')} goes from {mae.loc[m.replace(' (long context)', ''), 'All hours']:.2f} "
                      f"to {mae.loc[m, 'All hours']:.2f} µg/m³" for m in has_fm
                      if "long context" in m and m.replace(" (long context)", "") in models]
-        long_text = ("<p>Giving a model three weeks of history instead of one: " + "; ".join(long_bits) + ".</p>"
-                     if long_bits else "")
+        long_text = ""
+        if long_bits:
+            long_best = mae.loc[[m for m in has_fm if "long context" in m], "All hours"].idxmin()
+            long_gap = (mae.loc[long_best, "All hours"] / mae.loc[own_best, "All hours"] - 1) * 100
+            long_text = ("<p>Giving a model three weeks of history instead of one: " + "; ".join(long_bits) + ". "
+                         f"More history helps every one of them. The best, {long_best.replace(' (long context)', '')}, "
+                         f"then has an error {abs(long_gap):.1f}% {'above' if long_gap > 0 else 'below'} that of "
+                         f"{own_best}, which was trained on this data but sees only one week.</p>")
         fm_long = [m for m in has_fm if "long context" in m]
         onset_long = (f"With three weeks of history, {a_on.pr_auc[fm_long].idxmax().replace(' (long context)', '')} "
                       f"reaches {a_on.pr_auc[fm_long].max():.2f}. " if fm_long else "")
@@ -314,6 +321,60 @@ from the same command.</p>"""
                "a repeat of the previous day's spike that did not come." if "Chronos-2" in models else "")
     trap_lead = ("that puts plain persistence first and moves every zero-shot model ahead of every model trained on "
                  "the data" if fm_ahead else "that puts plain persistence at the top of the leaderboard")
+
+    # Run-to-run spread of the transformers, if the seeds stage has been run.
+    seed_html = ""
+    seed_limit = ("<li><b>One training run per model.</b> Each neural model was trained once, so differences of a few "
+                  "hundredths of a µg/m³ between models have not been tested against run-to-run variation.</li>")
+    if (config.TAB / "seed_summary.csv").exists():
+        ss, sr = _csv("seed_summary.csv"), _csv("seed_runs.csv")
+        variants = [m for m in ("Transformer", "Transformer + neighbours") if m in set(sr.model)]
+        cell = lambda m, k, nd: (lambda r: f"{r['mean']:.{nd}f} ± {r['std']:.{nd}f} ({r['min']:.{nd}f} to {r['max']:.{nd}f})")(
+            ss[(ss.model == m) & (ss.metric == k)].iloc[0])
+        seed_tbl = pd.DataFrame({
+            "Model": variants,
+            "Runs": [int((sr.model == m).sum()) for m in variants],
+            "MAE, all hours": [cell(m, "mae | All hours", 3) for m in variants],
+            "MAE, smoke at issue": [cell(m, "mae | Smoke at issue", 2) for m in variants],
+            "Onset PR-AUC": [cell(m, "pr_auc | onsets", 3) for m in variants],
+        })
+        own_r, nb_r = sr[sr.model == "Transformer"], sr[sr.model == "Transformer + neighbours"]
+        n_runs = len(nb_r)
+        xgb_nb_mae = mae.loc["XGBoost + neighbours", "All hours"]
+        n_beat = int((nb_r["mae | All hours"] < xgb_nb_mae).sum())
+        inside = nb_r["mae | All hours"].min() <= xgb_nb_mae <= nb_r["mae | All hours"].max()
+        tie = (f"The tree model with neighbours scores {xgb_nb_mae:.3f}, inside that range, so on overall error the two "
+               f"families are tied." if inside else
+               f"The tree model with neighbours scores {xgb_nb_mae:.3f}, outside that range: "
+               f"{'every' if n_beat == n_runs else 'no' if n_beat == 0 else f'{n_beat} of {n_runs}'} transformer "
+               f"run{'s' if n_beat != 1 else ''} beat{'s' if n_beat == 1 else ''} it.")
+        xgb_smoke = mae.loc["XGBoost + neighbours", "Smoke at issue"]
+        smoke_all = bool((nb_r["mae | Smoke at issue"] < xgb_smoke).all())
+        smoke = (f"With smoke present at issue every transformer run ({nb_r['mae | Smoke at issue'].min():.2f} to "
+                 f"{nb_r['mae | Smoke at issue'].max():.2f}) beats the tree model ({xgb_smoke:.2f}), so that advantage "
+                 f"is not a matter of luck." if smoke_all else
+                 f"With smoke present at issue the transformer runs span {nb_r['mae | Smoke at issue'].min():.2f} to "
+                 f"{nb_r['mae | Smoke at issue'].max():.2f} against {xgb_smoke:.2f} for the tree model, so that "
+                 f"comparison is not settled.")
+        sep_mae = nb_r["mae | All hours"].max() < own_r["mae | All hours"].min()
+        sep_on = nb_r["pr_auc | onsets"].min() > own_r["pr_auc | onsets"].max()
+        nb_text = ("Every run with neighbours beats every run without them, both on overall error and on onset "
+                   "warnings, so the value of spatial context is far outside the run-to-run spread."
+                   if sep_mae and sep_on else
+                   "Every run with neighbours beats every run without them on overall error; for onset warnings the "
+                   "two sets of runs overlap." if sep_mae else
+                   "The runs with and without neighbours overlap, so the gain from neighbours is within run-to-run "
+                   "spread for this model.")
+        seed_html = f"""
+<h3>How much of this is luck?</h3>
+<p>A neural network trained twice with different random seeds gives two slightly different models. Each transformer
+was therefore trained {n_runs} times, and every run was scored on the same cells as the leaderboard. The table gives
+the mean, the standard deviation, and the range.</p>
+{_table(seed_tbl, left=["Model"])}
+<p>Across seeds the overall error of the neighbour-aware transformer ranges from
+{nb_r['mae | All hours'].min():.3f} to {nb_r['mae | All hours'].max():.3f} µg/m³. {tie} {smoke} {nb_text}</p>"""
+        seed_limit = ("<li><b>Seed variation is measured for the transformer only.</b> The tree models and the "
+                      "ensembles were each produced once. The zero-shot models involve no training.</li>")
 
     body = f"""
 <h1>When the air turns: forecasting PM2.5 through wildfire smoke</h1>
@@ -430,6 +491,7 @@ than damped persistence when smoke is present at issue. Smoke episodes end, and 
 not pays for it.</li>
 </ul>
 {_fig(figs['horizon'], "Error by forecast horizon. The daily ripple reflects the time of day being forecast.")}
+{seed_html}
 
 <h2 id="trap">6. The slicing trap</h2>
 <p>A natural way to ask "which model is best in smoke?" is to score only the hours that turned out to be
@@ -524,8 +586,7 @@ parameters trained earlier on the CPU reached the same validation loss, so capac
 but a much larger model was not tried.</li>
 <li><b>Foundation-model pretraining.</b> As noted in section 7, the zero-shot models may have been pretrained on
 data from the test period.</li>
-<li><b>One training run per model.</b> Each neural model was trained once, so differences of a few hundredths of a
-µg/m³ between models have not been tested against run-to-run variation.</li>
+{seed_limit}
 </ul>
 
 <h2 id="concepts">13. Concept map</h2>

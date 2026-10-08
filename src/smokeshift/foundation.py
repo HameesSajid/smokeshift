@@ -34,8 +34,8 @@ MODELS = {
     "TimesFM": ("timesfm", "google/timesfm-2.5-200m-pytorch", config.CONTEXT),
     "TimesFM (long context)": ("timesfm", "google/timesfm-2.5-200m-pytorch", LONG_CONTEXT),
 }
-# What `python run.py foundation` runs unless SMOKESHIFT_FM names others (comma-separated).
-DEFAULT = ["Chronos-2", "TimesFM", "Chronos-Bolt", "Chronos-2 (long context)"]
+# What `python run.py foundation` runs unless SMOKESHIFT_FM names a subset (comma-separated).
+DEFAULT = list(MODELS)
 
 
 def _batches(bench, t_idx, length, batch):

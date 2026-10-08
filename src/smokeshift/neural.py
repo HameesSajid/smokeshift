@@ -144,10 +144,16 @@ PRESETS = {
 }
 
 
-def fit(bench, name, log=print):
-    """Train one variant with AdamW, a one-cycle schedule and early stopping; return the best model."""
-    torch.manual_seed(config.SEED)
-    rng = np.random.default_rng(config.SEED)
+def fit(bench, name, log=print, seed=config.SEED, save=True):
+    """Train one variant with AdamW, a one-cycle schedule and early stopping; return the best model.
+
+    `seed` sets the weight initialisation and the order of training windows.
+    The validation sample is the same for every seed, so that runs differ
+    only in what the seed is meant to vary. `save=False` leaves the stored
+    weights of the main run untouched.
+    """
+    torch.manual_seed(seed)
+    rng = np.random.default_rng(seed)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     preset = PRESETS[device]
     epochs, steps, batch, patience = (preset[k] for k in ("epochs", "steps", "batch", "patience"))
@@ -156,7 +162,7 @@ def fit(bench, name, log=print):
     n_params = sum(p.numel() for p in model.parameters())
     s_tr, t_tr = w.pairs("train")
     s_va, t_va = w.pairs("valid")
-    pick = rng.choice(len(s_va), size=min(40_000, len(s_va)), replace=False)
+    pick = np.random.default_rng(config.SEED).choice(len(s_va), size=min(40_000, len(s_va)), replace=False)
     s_va, t_va = s_va[pick], t_va[pick]
     log(f"  {name}: {n_params:,} parameters, {len(s_tr):,} candidate training windows, device={device}")
 
@@ -195,11 +201,12 @@ def fit(bench, name, log=print):
             if bad >= patience:
                 break
     model.load_state_dict(best_state)
-    config.MODELS.mkdir(parents=True, exist_ok=True)
-    torch.save(best_state, config.MODELS / f"{name}.pt")
+    if save:
+        config.MODELS.mkdir(parents=True, exist_ok=True)
+        torch.save(best_state, config.MODELS / f"{name}.pt")
     info = {"parameters": n_params, "best_valid_pinball_asinh": best, "epochs_run": len(history),
             "history": history, "device": device, "train_seconds": time.time() - t0, "use_spatial": VARIANTS[name],
-            "preset": preset}
+            "preset": preset, "seed": seed}
     return model, w, info
 
 

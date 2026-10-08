@@ -2,7 +2,7 @@
 #
 #   powershell -ExecutionPolicy Bypass -File scripts\run_gpu_queue.ps1
 #
-# About two hours on a GTX 1660 Ti. Safe to stop and rerun: finished models are
+# About four hours on a GTX 1660 Ti. Safe to stop and rerun: finished models are
 # stored, and each stage overwrites only its own outputs.
 
 $root = Split-Path $PSScriptRoot -Parent
@@ -17,6 +17,9 @@ Set-Location $root
 $env:SMOKESHIFT_FM = "Chronos-2,TimesFM,Chronos-Bolt"
 & $py run.py neural foundation @score
 
-# 2. One long-context variant, to see whether the 168-hour budget holds a foundation model back.
-$env:SMOKESHIFT_FM = "Chronos-2 (long context)"
+# 2. The long-context variants, to see whether the 168-hour budget holds a foundation model back.
+$env:SMOKESHIFT_FM = "Chronos-2 (long context),Chronos-Bolt (long context),TimesFM (long context)"
 & $py run.py foundation @score
+
+# 3. Five training seeds per transformer, to measure run-to-run spread (about 30 minutes).
+& $py run.py seeds report
