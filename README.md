@@ -200,7 +200,8 @@ page. `outputs\tables\` holds every number.
 `.cache` holds raw downloads, stored forecasts, trained models and pretrained weights (about 12 GB after a full
 run). Git ignores both. Deleting the project folder removes everything; `docs/INSTALLED.md` has the details and
 the commands to remove individual parts. To keep the cache on another drive, set the environment variable
-`SMOKESHIFT_CACHE` before running.
+`SMOKESHIFT_CACHE` before running. If a local copy has had `.venv` and `.cache` removed to save space, Steps 2 and
+5 bring them back; `docs/INSTALLED.md` lists exactly what was removed and the restore commands.
 
 **Using VS Code.** Open the `smokeshift` folder. The Python extension finds `.venv` by itself; if it asks, choose
 `.venv\Scripts\python.exe` as the interpreter. Then run the commands above in the integrated terminal.

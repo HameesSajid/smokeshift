@@ -130,6 +130,42 @@ repository's Settings page.
 To keep the cache on another drive, set the environment variable `SMOKESHIFT_CACHE` to a folder there before
 running. To put the environment somewhere else, set `SMOKESHIFT_VENV` before running `scripts\setup_env.ps1`.
 
+## Local clean-up on 2026-11-03
+
+To free disk space, the large local parts were removed from the laptop. Everything that was removed is either on
+GitHub or can be rebuilt with the commands below.
+
+| What | Size | How it was removed | How to get it back |
+|---|---|---|---|
+| `.venv\` (the Python environment, all 62 packages listed above) | 5.0 GB | `Remove-Item -Recurse -Force .venv` | `scripts\setup_env.ps1` |
+| `.cache\raw\` (EPA downloads, map outline) | 0.27 GB | `Remove-Item -Recurse -Force .cache` | `run.py download` |
+| `.cache\forecasts\` (stored forecasts of all 16 methods) | 9.4 GB | same command | rerun the model stages |
+| `.cache\models\` (XGBoost and transformer weights) | 0.24 GB | same command | `run.py gbm neural` |
+| `.cache\huggingface\` (Chronos and TimesFM weights) | 2.1 GB | same command | downloaded again by `run.py foundation` |
+| `__pycache__\` folders | under 1 MB | `Remove-Item -Recurse -Force` | Python recreates them |
+
+Nothing outside the project folder needed removing: the earlier environment at `C:\Users\hamee\.venvs\smokeshift`,
+the old cache at `C:\Users\hamee\.cache\smokeshift` and the stray TimesFM copy in `C:\Users\hamee\.cache\huggingface`
+were already gone. The pip cache and `C:\Users\hamee\.cache\torch` predate this project and were left alone.
+No system software was ever installed for it, so nothing needs uninstalling.
+
+The repository on GitHub still holds the code, documents, the cleaned data panel, every result table, the figures,
+the report and the dashboard, so the results open without rebuilding anything.
+
+### Bringing the project back
+
+```powershell
+git clone https://github.com/HameesSajid/smokeshift.git
+cd smokeshift
+powershell -ExecutionPolicy Bypass -File scripts\setup_env.ps1      # environment, about 10 minutes
+.venv\Scripts\python tests\test_smokeshift.py                        # quick check
+.venv\Scripts\python run.py download                                 # raw EPA files, only to rebuild the panel
+.venv\Scripts\python run.py all                                      # every model and score, 4 to 5 hours on the GPU
+```
+
+`run.py all` downloads the pretrained weights on first use and rebuilds `.cache`. The README section
+"Run it on your own computer" has the stage-by-stage version.
+
 ## Using the GPU
 
 The project uses the GPU automatically when it can:
@@ -171,3 +207,4 @@ variants take about three hours, and the ten seed runs about half an hour.
 | 2026-10-08 | Stored forecasts for two more variants, TimesFM (long context) and Chronos-Bolt (long context), in `.cache\forecasts\test\` (0.7 GB each). The commands that remove them are in section "4 and 5" above |
 | 2026-10-08 | Ran the seed experiment. It added two small tables to `outputs/tables/` and nothing to `.cache` |
 | 2026-10-08 | Nothing was installed and nothing was downloaded: `.venv` and `.cache\huggingface` are unchanged |
+| 2026-11-03 | Removed `.venv`, `.cache` and `__pycache__` from the laptop (about 17 GB). See "Local clean-up on 2026-11-03" for how to restore them |
