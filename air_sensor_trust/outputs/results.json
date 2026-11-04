@@ -1,0 +1,1831 @@
+{
+  "eda": {
+    "n_hours": 9357,
+    "start": "2004-03-10 18:00:00",
+    "end": "2005-04-04 14:00:00",
+    "missingness": [
+      {
+        "variable": "CO (mg/m\u00b3)",
+        "missing_pct": 18.0,
+        "longest_gap_hours": 173
+      },
+      {
+        "variable": "Sensor 1 (CO)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "NMHC (\u00b5g/m\u00b3)",
+        "missing_pct": 90.2,
+        "longest_gap_hours": 8126
+      },
+      {
+        "variable": "Benzene (\u00b5g/m\u00b3)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "Sensor 2 (NMHC)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "NOx (ppb)",
+        "missing_pct": 17.5,
+        "longest_gap_hours": 173
+      },
+      {
+        "variable": "Sensor 3 (NOx)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "NO2 (\u00b5g/m\u00b3)",
+        "missing_pct": 17.5,
+        "longest_gap_hours": 173
+      },
+      {
+        "variable": "Sensor 4 (NO2)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "Sensor 5 (O3)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "Temperature (\u00b0C)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "Relative humidity (%)",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      },
+      {
+        "variable": "Absolute humidity",
+        "missing_pct": 3.9,
+        "longest_gap_hours": 76
+      }
+    ],
+    "missing_vs_hour": {
+      "column": "no2_ref",
+      "chi2": 1617.1905049026668,
+      "dof": 23,
+      "p_value": 0.0,
+      "cramers_v": 0.415730872400431,
+      "worst_hour": 3,
+      "worst_hour_missing_pct": 93.33333333333333,
+      "best_hour_missing_pct": 13.367609254498714
+    },
+    "weekday_weekend": [
+      {
+        "pollutant": "NO2 (\u00b5g/m\u00b3)",
+        "weekday_mean": 119.24479416065233,
+        "weekend_mean": 99.98112508059315,
+        "difference": 19.263669080059188,
+        "ci95_low": 11.320169020190843,
+        "ci95_high": 26.987859391996444,
+        "cohens_d": 0.6125691465647218,
+        "n_weekdays": 229,
+        "n_weekend_days": 94,
+        "p_mannwhitney": 4.1372009448277474e-07,
+        "p_holm": 8.274401889655495e-07
+      },
+      {
+        "pollutant": "CO (mg/m\u00b3)",
+        "weekday_mean": 2.3608852394988413,
+        "weekend_mean": 1.658237239916934,
+        "difference": 0.7026479995819073,
+        "ci95_low": 0.5355478207587201,
+        "ci95_high": 0.8648508236964702,
+        "cohens_d": 0.9680770184041616,
+        "n_weekdays": 219,
+        "n_weekend_days": 95,
+        "p_mannwhitney": 1.1896975935583477e-14,
+        "p_holm": 3.569092780675043e-14
+      },
+      {
+        "pollutant": "NOx (ppb)",
+        "weekday_mean": 270.3965248961332,
+        "weekend_mean": 194.86502396770672,
+        "difference": 75.53150092842648,
+        "ci95_low": 42.30190458020712,
+        "ci95_high": 108.32507534679146,
+        "cohens_d": 0.49619676667706014,
+        "n_weekdays": 229,
+        "n_weekend_days": 94,
+        "p_mannwhitney": 1.8791481992065235e-05,
+        "p_holm": 1.8791481992065235e-05
+      }
+    ],
+    "distribution": [
+      {
+        "pollutant": "NO2 (\u00b5g/m\u00b3)",
+        "mean": 113.09125081011017,
+        "median": 109.0,
+        "p95": 200.29999999999927,
+        "max": 340.0,
+        "skew_raw": 0.6215934292065955,
+        "skew_log": -0.9194843244430551
+      },
+      {
+        "pollutant": "CO (mg/m\u00b3)",
+        "mean": 2.1527495439145166,
+        "median": 1.8,
+        "p95": 4.9,
+        "max": 11.9,
+        "skew_raw": 1.3694850245801748,
+        "skew_log": -0.5461755859523466
+      },
+      {
+        "pollutant": "NOx (ppb)",
+        "mean": 246.8967349054159,
+        "median": 180.0,
+        "p95": 693.0,
+        "max": 1479.0,
+        "skew_raw": 1.7154473177896201,
+        "skew_log": -0.29421538043421264
+      }
+    ],
+    "acf_no2": {
+      "lag1": 0.899575521940146,
+      "lag24": 0.7077464009071118,
+      "lag168": 0.6458785743697688
+    },
+    "sensor_pca": {
+      "explained_variance_ratio": [
+        0.814205941955309,
+        0.10316191249266489,
+        0.048645650332772225,
+        0.019117225144601794,
+        0.014869270074652264
+      ],
+      "pc1_loadings": {
+        "s1_co": 0.46932435680124296,
+        "s2_nmhc": 0.4791131727048442,
+        "s3_nox": -0.43033166382684723,
+        "s4_no2": 0.3899059060624932,
+        "s5_o3": 0.46149025924649967
+      }
+    },
+    "spearman_s4_vs_no2": 0.1537054276524279,
+    "spearman_s2_vs_benzene": 0.9999843886917533,
+    "figures": {
+      "missingness": "01_missingness.png",
+      "diurnal": "02_diurnal_profiles.png",
+      "acf": "03_no2_autocorrelation.png",
+      "correlation": "04_correlation.png"
+    }
+  },
+  "audit": {
+    "rows_in_file": 9471,
+    "empty_trailing_rows": 114,
+    "missing_markers_kept_as_values": {
+      "CO(GT)": 1683,
+      "C6H6(GT)": 366,
+      "T": 366,
+      "RH": 366,
+      "AH": 366
+    },
+    "upper_fences": {
+      "CO(GT)": 5.6,
+      "NOx(GT)": 645.0,
+      "NO2(GT)": 223.5,
+      "C6H6(GT)": 25.25
+    },
+    "rows_dropped_by_filter": {
+      "CO(GT)": 1898,
+      "NOx(GT)": 344,
+      "NO2(GT)": 68,
+      "C6H6(GT)": 375
+    },
+    "rows_left": 6786,
+    "r2_original_feature_set": 1.0,
+    "r2_three_components_only": 1.0,
+    "r2_sensors_and_weather_only": 0.7207950400628718,
+    "real_hours": 9357,
+    "real_hours_removed_pct": 28.695094581596663,
+    "no2_exceedance_hours": 386,
+    "no2_exceedance_hours_removed": 282,
+    "no2_exceedance_removed_pct": 73.05699481865285,
+    "co_top5pct_hours_removed_pct": 92.14659685863874,
+    "max_no2_left": 223.0,
+    "nmhc_missing_pct_before_ffill": 90.23191193758683,
+    "no2_values_invented_by_ffill": 1642
+  },
+  "calibration": {
+    "static": [
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "Single sensor, linear",
+        "mae": 0.5684659468482488,
+        "mae_pct_of_mean": 26.998314596992767,
+        "r2": 0.6953846492597313,
+        "bias": -0.3781577617091637,
+        "n_train": 1068,
+        "n_test": 6276
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "mae": 0.5035044682147599,
+        "mae_pct_of_mean": 23.91308065016333,
+        "r2": 0.7927757439839953,
+        "bias": -0.3460660824879417,
+        "n_train": 1068,
+        "n_test": 6276
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "mae": 0.3256955165832017,
+        "mae_pct_of_mean": 15.468349631663505,
+        "r2": 0.8782498206349034,
+        "bias": -0.041002989476233105,
+        "n_train": 1068,
+        "n_test": 6276
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "Single sensor, linear",
+        "mae": 128.46432423984874,
+        "mae_pct_of_mean": 49.524453864850976,
+        "r2": 0.15378390979145373,
+        "bias": -79.9878652943626,
+        "n_train": 1056,
+        "n_test": 6340
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "mae": 160.39868897269727,
+        "mae_pct_of_mean": 61.8355136261781,
+        "r2": -0.07544483523721901,
+        "bias": -159.11506636122652,
+        "n_train": 1056,
+        "n_test": 6340
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "mae": 140.91109150516792,
+        "mae_pct_of_mean": 54.32282380020326,
+        "r2": 0.07953156324135546,
+        "bias": -137.68242007859737,
+        "n_train": 1056,
+        "n_test": 6340
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "Single sensor, linear",
+        "mae": 48.85267376198961,
+        "mae_pct_of_mean": 42.66329769962931,
+        "r2": -0.661209939082599,
+        "bias": -32.4860536736673,
+        "n_train": 1056,
+        "n_test": 6337
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "mae": 20.680140647152705,
+        "mae_pct_of_mean": 18.060075917198848,
+        "r2": 0.6950041821195972,
+        "bias": -2.8067712583904147,
+        "n_train": 1056,
+        "n_test": 6337
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "mae": 33.28407253682608,
+        "mae_pct_of_mean": 29.06715612359218,
+        "r2": 0.1778808478490972,
+        "bias": -28.900942047051124,
+        "n_train": 1056,
+        "n_test": 6337
+      }
+    ],
+    "strategies_overall": [
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Expanding (refit on all history)",
+        "mae": 0.36356164915651884
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Rolling (refit on last 8 weeks)",
+        "mae": 0.39405271465993275
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Static (first 8 weeks only)",
+        "mae": 0.3256955165832017
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Expanding (refit on all history)",
+        "mae": 0.3750295839376181
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Rolling (refit on last 8 weeks)",
+        "mae": 0.41288338155977083
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Static (first 8 weeks only)",
+        "mae": 0.5035044682147599
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Expanding (refit on all history)",
+        "mae": 19.192262118205324
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Rolling (refit on last 8 weeks)",
+        "mae": 20.003912184538233
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Static (first 8 weeks only)",
+        "mae": 33.28407253682608
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Expanding (refit on all history)",
+        "mae": 19.740044966863007
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Rolling (refit on last 8 weeks)",
+        "mae": 19.945801417459315
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Static (first 8 weeks only)",
+        "mae": 20.680140647152705
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Expanding (refit on all history)",
+        "mae": 52.97534119832184
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Rolling (refit on last 8 weeks)",
+        "mae": 50.93373851774974
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "strategy": "Static (first 8 weeks only)",
+        "mae": 140.9110915051679
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Expanding (refit on all history)",
+        "mae": 60.07254414785508
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Rolling (refit on last 8 weeks)",
+        "mae": 55.42853862018603
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "strategy": "Static (first 8 weeks only)",
+        "mae": 160.3986889726973
+      }
+    ],
+    "drift_summary": [
+      {
+        "block": 2,
+        "mean_psi": 0.23901632403463008,
+        "max_ks": 0.35590351101910256,
+        "domain_auc": 0.9270903291767926
+      },
+      {
+        "block": 3,
+        "mean_psi": 1.4591527413370298,
+        "max_ks": 0.7243041134017902,
+        "domain_auc": 0.9992832146475715
+      },
+      {
+        "block": 4,
+        "mean_psi": 1.5726396462434147,
+        "max_ks": 0.792290378566005,
+        "domain_auc": 0.9998000054235817
+      },
+      {
+        "block": 5,
+        "mean_psi": 2.0533988280137185,
+        "max_ks": 0.8387139004529626,
+        "domain_auc": 0.9999282818727311
+      },
+      {
+        "block": 6,
+        "mean_psi": 1.4339252633239317,
+        "max_ks": 0.7549438752800626,
+        "domain_auc": 0.9997194699103426
+      },
+      {
+        "block": 7,
+        "mean_psi": 0.7422919809775037,
+        "max_ks": 0.5809063411289036,
+        "domain_auc": 0.9996808897066563
+      },
+      {
+        "block": 8,
+        "mean_psi": 0.5651478263253227,
+        "max_ks": 0.5632254040568392,
+        "domain_auc": 0.9995276964240517
+      },
+      {
+        "block": 9,
+        "mean_psi": 0.5631832253972148,
+        "max_ks": 0.40290036721085226,
+        "domain_auc": 0.9998445016365469
+      },
+      {
+        "block": 10,
+        "mean_psi": 1.031082658170104,
+        "max_ks": 0.5771712325545454,
+        "domain_auc": 0.9999543075238038
+      },
+      {
+        "block": 11,
+        "mean_psi": 1.5582139215113804,
+        "max_ks": 0.7252328484753274,
+        "domain_auc": 0.999973817191632
+      },
+      {
+        "block": 12,
+        "mean_psi": 1.5952482772239938,
+        "max_ks": 0.7495075544991362,
+        "domain_auc": 0.9997371178580118
+      },
+      {
+        "block": 13,
+        "mean_psi": 0.46186058383859907,
+        "max_ks": 0.5090234403703432,
+        "domain_auc": 0.9995064540622627
+      }
+    ],
+    "drift_vs_error": [
+      {
+        "target": "CO (mg/m\u00b3)",
+        "signal": "mean_psi",
+        "spearman_rho": -0.0979020979020979,
+        "p_value": 0.762121655996299,
+        "n_blocks": 12
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "signal": "domain_auc",
+        "spearman_rho": 0.5174825174825175,
+        "p_value": 0.08486877113393493,
+        "n_blocks": 12
+      },
+      {
+        "target": "NOx (ppb)",
+        "signal": "mean_psi",
+        "spearman_rho": -0.21678321678321683,
+        "p_value": 0.49855598552418856,
+        "n_blocks": 12
+      },
+      {
+        "target": "NOx (ppb)",
+        "signal": "domain_auc",
+        "spearman_rho": 0.5034965034965035,
+        "p_value": 0.09515736659412469,
+        "n_blocks": 12
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "signal": "mean_psi",
+        "spearman_rho": 0.18881118881118883,
+        "p_value": 0.5567370561768314,
+        "n_blocks": 12
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "signal": "domain_auc",
+        "spearman_rho": 0.034965034965034975,
+        "p_value": 0.9140933424107598,
+        "n_blocks": 12
+      }
+    ],
+    "learning_curve": [
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 1,
+        "n_train": 160,
+        "mae": 1.3343197404297595
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 1,
+        "n_train": 160,
+        "mae": 0.4045604076927649
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 2,
+        "n_train": 320,
+        "mae": 0.6017426156636687
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 2,
+        "n_train": 320,
+        "mae": 0.40381242898896375
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 4,
+        "n_train": 602,
+        "mae": 0.4322736500173871
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 4,
+        "n_train": 602,
+        "mae": 0.33719541054965824
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 8,
+        "n_train": 1068,
+        "mae": 0.357161061595667
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 8,
+        "n_train": 1068,
+        "mae": 0.2137584957601461
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 12,
+        "n_train": 1573,
+        "mae": 0.6017807177951326
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 12,
+        "n_train": 1573,
+        "mae": 0.39905580893576437
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 16,
+        "n_train": 2153,
+        "mae": 0.34111227236283603
+      },
+      {
+        "target": "CO (mg/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 16,
+        "n_train": 2153,
+        "mae": 0.20330247200037999
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 1,
+        "n_train": 160,
+        "mae": 128.57108530042848
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 1,
+        "n_train": 160,
+        "mae": 32.5667914027289
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 2,
+        "n_train": 321,
+        "mae": 82.99852954933506
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 2,
+        "n_train": 321,
+        "mae": 26.445879965701607
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 4,
+        "n_train": 594,
+        "mae": 66.30632113829671
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 4,
+        "n_train": 594,
+        "mae": 26.624211125886625
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 8,
+        "n_train": 1056,
+        "mae": 46.57415998875498
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 8,
+        "n_train": 1056,
+        "mae": 25.307685198352036
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 12,
+        "n_train": 1586,
+        "mae": 37.79099661271862
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 12,
+        "n_train": 1586,
+        "mae": 23.013070868097266
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 16,
+        "n_train": 2153,
+        "mae": 26.29629792870109
+      },
+      {
+        "target": "NOx (ppb)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 16,
+        "n_train": 2153,
+        "mae": 20.803312770724094
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 1,
+        "n_train": 160,
+        "mae": 16.273472170970045
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 1,
+        "n_train": 160,
+        "mae": 23.521646083433325
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 2,
+        "n_train": 321,
+        "mae": 16.829158100516608
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 2,
+        "n_train": 321,
+        "mae": 17.469155143316648
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 4,
+        "n_train": 594,
+        "mae": 16.546910660530934
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 4,
+        "n_train": 594,
+        "mae": 17.410687336017148
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 8,
+        "n_train": 1056,
+        "mae": 17.57416535309001
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 8,
+        "n_train": 1056,
+        "mae": 20.837620940109755
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 12,
+        "n_train": 1586,
+        "mae": 16.705972304328817
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 12,
+        "n_train": 1586,
+        "mae": 21.819378907192515
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, ridge",
+        "weeks": 16,
+        "n_train": 2152,
+        "mae": 17.407279450266948
+      },
+      {
+        "target": "NO2 (\u00b5g/m\u00b3)",
+        "model": "All sensors + weather, boosted trees",
+        "weeks": 16,
+        "n_train": 2152,
+        "mae": 13.161650349461965
+      }
+    ],
+    "psi_max_by_feature": {
+      "s1_co": 2.0097142638392107,
+      "s2_nmhc": 0.4910771167423348,
+      "s3_nox": 1.794301976641739,
+      "s4_no2": 3.735723543103327,
+      "s5_o3": 0.6579835782248211,
+      "temp": 6.816881008397825,
+      "rh": 2.1591353288763013,
+      "ah": 5.09912781239428
+    },
+    "figures": {
+      "strategies": "05_calibration_strategies.png",
+      "drift": "06_input_drift.png"
+    }
+  },
+  "forecasting": {
+    "point": [
+      {
+        "horizon_h": 1,
+        "model": "Persistence",
+        "mae": 17.61400462962963,
+        "rmse": 24.13012083437382,
+        "bias": -0.8964120370370371,
+        "n": 3456,
+        "skill_vs_persistence": 0.0
+      },
+      {
+        "horizon_h": 1,
+        "model": "Same hour yesterday",
+        "mae": 32.70515046296296,
+        "rmse": 43.39901205886126,
+        "bias": 0.4140625,
+        "n": 3456,
+        "skill_vs_persistence": -0.8567697210631795
+      },
+      {
+        "horizon_h": 1,
+        "model": "Same hour last week",
+        "mae": 37.90133101851852,
+        "rmse": 48.85045146972847,
+        "bias": -0.29484953703703703,
+        "n": 3456,
+        "skill_vs_persistence": -1.1517725137168577
+      },
+      {
+        "horizon_h": 1,
+        "model": "Climatology",
+        "mae": 38.7120289936257,
+        "rmse": 50.806963458679434,
+        "bias": -31.01188842312327,
+        "n": 3456,
+        "skill_vs_persistence": -1.1977982751580383
+      },
+      {
+        "horizon_h": 1,
+        "model": "Ridge",
+        "mae": 15.357848029244495,
+        "rmse": 20.865260272667275,
+        "bias": -1.4609671274143576,
+        "n": 3456,
+        "skill_vs_persistence": 0.12808879342463164
+      },
+      {
+        "horizon_h": 1,
+        "model": "Boosted trees",
+        "mae": 15.210817584921754,
+        "rmse": 21.001055063118045,
+        "bias": -2.0230615567733494,
+        "n": 3456,
+        "skill_vs_persistence": 0.13643615380146557
+      },
+      {
+        "horizon_h": 3,
+        "model": "Persistence",
+        "mae": 37.471014492753625,
+        "rmse": 48.49046821022021,
+        "bias": -1.654782608695652,
+        "n": 3450,
+        "skill_vs_persistence": 0.0
+      },
+      {
+        "horizon_h": 3,
+        "model": "Same hour yesterday",
+        "mae": 32.611304347826085,
+        "rmse": 43.38239474617605,
+        "bias": 0.40144927536231884,
+        "n": 3450,
+        "skill_vs_persistence": 0.12969251595436093
+      },
+      {
+        "horizon_h": 3,
+        "model": "Same hour last week",
+        "mae": 37.74260869565217,
+        "rmse": 48.68701579729833,
+        "bias": -0.32869565217391306,
+        "n": 3450,
+        "skill_vs_persistence": -0.007248114484625701
+      },
+      {
+        "horizon_h": 3,
+        "model": "Climatology",
+        "mae": 38.82465228053424,
+        "rmse": 50.886610666756994,
+        "bias": -31.393290415376562,
+        "n": 3450,
+        "skill_vs_persistence": -0.03612493032560904
+      },
+      {
+        "horizon_h": 3,
+        "model": "Ridge",
+        "mae": 23.39967405997135,
+        "rmse": 30.650609986946858,
+        "bias": -0.7754925290548003,
+        "n": 3450,
+        "skill_vs_persistence": 0.37552600652174706
+      },
+      {
+        "horizon_h": 3,
+        "model": "Boosted trees",
+        "mae": 23.54093505467387,
+        "rmse": 31.35733731669998,
+        "bias": -1.315382797325551,
+        "n": 3450,
+        "skill_vs_persistence": 0.3717561327509198
+      },
+      {
+        "horizon_h": 6,
+        "model": "Persistence",
+        "mae": 49.75412684622068,
+        "rmse": 62.134358775154766,
+        "bias": -0.4456993918331885,
+        "n": 3453,
+        "skill_vs_persistence": 0.0
+      },
+      {
+        "horizon_h": 6,
+        "model": "Same hour yesterday",
+        "mae": 32.291340863017666,
+        "rmse": 42.88336406356934,
+        "bias": 0.3295684911671011,
+        "n": 3453,
+        "skill_vs_persistence": 0.35098165901246214
+      },
+      {
+        "horizon_h": 6,
+        "model": "Same hour last week",
+        "mae": 37.46770923834347,
+        "rmse": 48.32181074391571,
+        "bias": -0.2867072111207645,
+        "n": 3453,
+        "skill_vs_persistence": 0.24694268368635808
+      },
+      {
+        "horizon_h": 6,
+        "model": "Climatology",
+        "mae": 38.06693183963335,
+        "rmse": 49.8260998755236,
+        "bias": -30.488080852362,
+        "n": 3453,
+        "skill_vs_persistence": 0.23489900732676794
+      },
+      {
+        "horizon_h": 6,
+        "model": "Ridge",
+        "mae": 25.363680846363646,
+        "rmse": 32.793101327513405,
+        "bias": -0.8041619674480582,
+        "n": 3453,
+        "skill_vs_persistence": 0.4902195565654818
+      },
+      {
+        "horizon_h": 6,
+        "model": "Boosted trees",
+        "mae": 25.890534039860555,
+        "rmse": 33.60427928594196,
+        "bias": -1.0289886637515357,
+        "n": 3453,
+        "skill_vs_persistence": 0.47963042101245923
+      },
+      {
+        "horizon_h": 12,
+        "model": "Persistence",
+        "mae": 56.22739168362896,
+        "rmse": 68.63938324071817,
+        "bias": -0.3454492585053795,
+        "n": 3439,
+        "skill_vs_persistence": 0.0
+      },
+      {
+        "horizon_h": 12,
+        "model": "Same hour yesterday",
+        "mae": 32.19656876999127,
+        "rmse": 42.81674469239909,
+        "bias": 0.25356208200058156,
+        "n": 3439,
+        "skill_vs_persistence": 0.4273864071243135
+      },
+      {
+        "horizon_h": 12,
+        "model": "Same hour last week",
+        "mae": 37.330910148298926,
+        "rmse": 48.133111809409435,
+        "bias": -0.49054957836580404,
+        "n": 3439,
+        "skill_vs_persistence": 0.3360725256766959
+      },
+      {
+        "horizon_h": 12,
+        "model": "Climatology",
+        "mae": 38.39745233430939,
+        "rmse": 50.35920551308616,
+        "bias": -30.70708442194531,
+        "n": 3439,
+        "skill_vs_persistence": 0.31710415182767393
+      },
+      {
+        "horizon_h": 12,
+        "model": "Ridge",
+        "mae": 26.530197107834294,
+        "rmse": 34.264738475613676,
+        "bias": -0.03656286589455642,
+        "n": 3439,
+        "skill_vs_persistence": 0.5281624077974301
+      },
+      {
+        "horizon_h": 12,
+        "model": "Boosted trees",
+        "mae": 27.40336264454457,
+        "rmse": 35.821485816809805,
+        "bias": -1.4780276059392208,
+        "n": 3439,
+        "skill_vs_persistence": 0.5126332233454238
+      },
+      {
+        "horizon_h": 24,
+        "model": "Persistence",
+        "mae": 32.512385193431676,
+        "rmse": 43.23657405404569,
+        "bias": 0.35986640690231003,
+        "n": 3593,
+        "skill_vs_persistence": 0.0
+      },
+      {
+        "horizon_h": 24,
+        "model": "Same hour yesterday",
+        "mae": 32.512385193431676,
+        "rmse": 43.23657405404569,
+        "bias": 0.35986640690231003,
+        "n": 3593,
+        "skill_vs_persistence": 0.0
+      },
+      {
+        "horizon_h": 24,
+        "model": "Same hour last week",
+        "mae": 37.55218480378514,
+        "rmse": 48.46989419130996,
+        "bias": -0.42944614528249375,
+        "n": 3593,
+        "skill_vs_persistence": -0.155011684943116
+      },
+      {
+        "horizon_h": 24,
+        "model": "Climatology",
+        "mae": 38.42180873732361,
+        "rmse": 50.419923056658725,
+        "bias": -30.760188719133822,
+        "n": 3593,
+        "skill_vs_persistence": -0.1817591514351824
+      },
+      {
+        "horizon_h": 24,
+        "model": "Ridge",
+        "mae": 27.251206528871542,
+        "rmse": 35.44044860185503,
+        "bias": -2.664616170525142,
+        "n": 3593,
+        "skill_vs_persistence": 0.16182075333011947
+      },
+      {
+        "horizon_h": 24,
+        "model": "Boosted trees",
+        "mae": 28.938999286719095,
+        "rmse": 38.102608986116074,
+        "bias": -3.977117913285606,
+        "n": 3593,
+        "skill_vs_persistence": 0.10990845136254401
+      }
+    ],
+    "best_vs_baseline": [
+      {
+        "horizon_h": 1,
+        "best_model": "Boosted trees",
+        "best_baseline": "Persistence",
+        "mae_difference": -2.4031870447078756,
+        "ci95_low": -2.985027137997275,
+        "ci95_high": -1.7247033328585701
+      },
+      {
+        "horizon_h": 3,
+        "best_model": "Ridge",
+        "best_baseline": "Same hour yesterday",
+        "mae_difference": -9.211630287854739,
+        "ci95_low": -10.944206952091927,
+        "ci95_high": -7.460793343067234
+      },
+      {
+        "horizon_h": 6,
+        "best_model": "Ridge",
+        "best_baseline": "Same hour yesterday",
+        "mae_difference": -6.927660016654018,
+        "ci95_low": -8.6396221178832,
+        "ci95_high": -5.3547875856839795
+      },
+      {
+        "horizon_h": 12,
+        "best_model": "Ridge",
+        "best_baseline": "Same hour yesterday",
+        "mae_difference": -5.666371662156977,
+        "ci95_low": -7.4046810913803105,
+        "ci95_high": -3.9524964002659315
+      },
+      {
+        "horizon_h": 24,
+        "best_model": "Ridge",
+        "best_baseline": "Persistence",
+        "mae_difference": -5.261178664560135,
+        "ci95_low": -6.988813990967087,
+        "ci95_high": -3.518622680198054
+      }
+    ],
+    "intervals": [
+      {
+        "horizon_h": 1,
+        "method": "Quantile trees, raw",
+        "coverage": 0.7975717954704646,
+        "mean_width": 57.18366787575227,
+        "worst_month_coverage": 0.709726443768997,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 1,
+        "method": "Conformalized (static)",
+        "coverage": 0.8617791267802942,
+        "mean_width": 71.32930013776573,
+        "worst_month_coverage": 0.662613981762918,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 1,
+        "method": "Adaptive conformal",
+        "coverage": 0.8998365631566659,
+        "mean_width": 76.56187252574794,
+        "worst_month_coverage": 0.8922829581993569,
+        "worst_month": "2004-12"
+      },
+      {
+        "horizon_h": 3,
+        "method": "Quantile trees, raw",
+        "coverage": 0.76161568993696,
+        "mean_width": 73.5884401180552,
+        "worst_month_coverage": 0.6656534954407295,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 3,
+        "method": "Conformalized (static)",
+        "coverage": 0.859677795937427,
+        "mean_width": 101.60024299543983,
+        "worst_month_coverage": 0.6534954407294833,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 3,
+        "method": "Adaptive conformal",
+        "coverage": 0.8989026383376139,
+        "mean_width": 109.46707870772399,
+        "worst_month_coverage": 0.8878048780487805,
+        "worst_month": "2005-03"
+      },
+      {
+        "horizon_h": 6,
+        "method": "Quantile trees, raw",
+        "coverage": 0.7835629231846837,
+        "mean_width": 82.49499920235102,
+        "worst_month_coverage": 0.6641337386018237,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 6,
+        "method": "Conformalized (static)",
+        "coverage": 0.8554751342516927,
+        "mean_width": 107.67861522591446,
+        "worst_month_coverage": 0.6170212765957447,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 6,
+        "method": "Adaptive conformal",
+        "coverage": 0.8984356759280878,
+        "mean_width": 118.36994734576427,
+        "worst_month_coverage": 0.8830985915492958,
+        "worst_month": "2005-01"
+      },
+      {
+        "horizon_h": 12,
+        "method": "Quantile trees, raw",
+        "coverage": 0.7282278776558487,
+        "mean_width": 74.5918953667534,
+        "worst_month_coverage": 0.6109422492401215,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 12,
+        "method": "Conformalized (static)",
+        "coverage": 0.8568760214802709,
+        "mean_width": 111.77092917022472,
+        "worst_month_coverage": 0.6261398176291794,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 12,
+        "method": "Adaptive conformal",
+        "coverage": 0.8986691571328508,
+        "mean_width": 128.34866174295354,
+        "worst_month_coverage": 0.8845070422535212,
+        "worst_month": "2005-01"
+      },
+      {
+        "horizon_h": 24,
+        "method": "Quantile trees, raw",
+        "coverage": 0.7125846369367266,
+        "mean_width": 73.55976761736031,
+        "worst_month_coverage": 0.5896656534954408,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 24,
+        "method": "Conformalized (static)",
+        "coverage": 0.8599112771421901,
+        "mean_width": 116.29030229994073,
+        "worst_month_coverage": 0.6003039513677811,
+        "worst_month": "2004-11"
+      },
+      {
+        "horizon_h": 24,
+        "method": "Adaptive conformal",
+        "coverage": 0.8984356759280878,
+        "mean_width": 133.90467747859174,
+        "worst_month_coverage": 0.8858520900321544,
+        "worst_month": "2004-12"
+      }
+    ],
+    "alerts": [
+      {
+        "horizon_h": 1,
+        "method": "Base rate (climatology)",
+        "brier": 0.08374746629232813,
+        "brier_skill": 0.0,
+        "pr_auc": 0.12179050624059888,
+        "roc_auc": 0.6171525192788341,
+        "alerts": 0,
+        "precision": NaN,
+        "recall": 0.0,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 1,
+        "method": "Persistence (alert if over the limit now)",
+        "brier": 0.05930422600980621,
+        "brier_skill": 0.2918684154240627,
+        "pr_auc": 0.46485195612099955,
+        "roc_auc": 0.812760351471922,
+        "alerts": 372,
+        "precision": 0.6612903225806451,
+        "recall": 0.6577540106951871,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 1,
+        "method": "Classifier (boosted trees + Platt)",
+        "brier": 0.052830002546679064,
+        "brier_skill": 0.36917491494881594,
+        "pr_auc": 0.5469774661573419,
+        "roc_auc": 0.8690178157357968,
+        "alerts": 534,
+        "precision": 0.4794007490636704,
+        "recall": 0.6844919786096256,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 1,
+        "method": "Forecast + residual distribution (ridge)",
+        "brier": 0.04149271456626875,
+        "brier_skill": 0.5045496132213163,
+        "pr_auc": 0.7194532408737262,
+        "roc_auc": 0.9417640355521264,
+        "alerts": 522,
+        "precision": 0.5632183908045977,
+        "recall": 0.786096256684492,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 3,
+        "method": "Base rate (climatology)",
+        "brier": 0.0837464916913237,
+        "brier_skill": 0.0,
+        "pr_auc": 0.12179050624059888,
+        "roc_auc": 0.6171525192788341,
+        "alerts": 0,
+        "precision": NaN,
+        "recall": 0.0,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 3,
+        "method": "Persistence (alert if over the limit now)",
+        "brier": 0.11090357226243287,
+        "brier_skill": -0.324277232665529,
+        "pr_auc": 0.1851430614755444,
+        "roc_auc": 0.6478765580047688,
+        "alerts": 367,
+        "precision": 0.36239782016348776,
+        "recall": 0.35561497326203206,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 3,
+        "method": "Classifier (boosted trees + Platt)",
+        "brier": 0.0678869764238047,
+        "brier_skill": 0.18937527945617905,
+        "pr_auc": 0.34604203605754974,
+        "roc_auc": 0.7819614136033259,
+        "alerts": 605,
+        "precision": 0.3256198347107438,
+        "recall": 0.5267379679144385,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 3,
+        "method": "Forecast + residual distribution (ridge)",
+        "brier": 0.05685436940597829,
+        "brier_skill": 0.3211134191085343,
+        "pr_auc": 0.5081685177392804,
+        "roc_auc": 0.8909328260711945,
+        "alerts": 666,
+        "precision": 0.3918918918918919,
+        "recall": 0.6978609625668449,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 6,
+        "method": "Base rate (climatology)",
+        "brier": 0.08374502879307089,
+        "brier_skill": 0.0,
+        "pr_auc": 0.12179050624059888,
+        "roc_auc": 0.6171525192788341,
+        "alerts": 0,
+        "precision": NaN,
+        "recall": 0.0,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 6,
+        "method": "Persistence (alert if over the limit now)",
+        "brier": 0.13121643707681532,
+        "brier_skill": -0.566856432768607,
+        "pr_auc": 0.11853222370602987,
+        "roc_auc": 0.5738809931284312,
+        "alerts": 350,
+        "precision": 0.23142857142857143,
+        "recall": 0.21657754010695188,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 6,
+        "method": "Classifier (boosted trees + Platt)",
+        "brier": 0.0678843482672869,
+        "brier_skill": 0.18939250191166346,
+        "pr_auc": 0.33568423327493285,
+        "roc_auc": 0.7867269143058045,
+        "alerts": 570,
+        "precision": 0.3543859649122807,
+        "recall": 0.5401069518716578,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 6,
+        "method": "Forecast + residual distribution (ridge)",
+        "brier": 0.05942833656376256,
+        "brier_skill": 0.2903657993765034,
+        "pr_auc": 0.46359435777907687,
+        "roc_auc": 0.8721782859519305,
+        "alerts": 711,
+        "precision": 0.36849507735583686,
+        "recall": 0.7005347593582888,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 12,
+        "method": "Base rate (climatology)",
+        "brier": 0.08374258796770101,
+        "brier_skill": 0.0,
+        "pr_auc": 0.12179050624059888,
+        "roc_auc": 0.6171525192788341,
+        "alerts": 0,
+        "precision": NaN,
+        "recall": 0.0,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 12,
+        "method": "Persistence (alert if over the limit now)",
+        "brier": 0.13425169273873452,
+        "brier_skill": -0.6031471679680422,
+        "pr_auc": 0.1140000901427021,
+        "roc_auc": 0.5673822099829955,
+        "alerts": 355,
+        "precision": 0.21690140845070421,
+        "recall": 0.20588235294117646,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 12,
+        "method": "Classifier (boosted trees + Platt)",
+        "brier": 0.07423440210029016,
+        "brier_skill": 0.11354062607998339,
+        "pr_auc": 0.23995814135761384,
+        "roc_auc": 0.7452567296366672,
+        "alerts": 467,
+        "precision": 0.2633832976445396,
+        "recall": 0.32887700534759357,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 12,
+        "method": "Forecast + residual distribution (ridge)",
+        "brier": 0.0619946287123144,
+        "brier_skill": 0.2597001093849006,
+        "pr_auc": 0.4294231600542065,
+        "roc_auc": 0.8666863661672022,
+        "alerts": 796,
+        "precision": 0.3278894472361809,
+        "recall": 0.6978609625668449,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 24,
+        "method": "Base rate (climatology)",
+        "brier": 0.08373671637548523,
+        "brier_skill": 0.0,
+        "pr_auc": 0.12179050624059888,
+        "roc_auc": 0.6171525192788341,
+        "alerts": 0,
+        "precision": NaN,
+        "recall": 0.0,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 24,
+        "method": "Persistence (alert if over the limit now)",
+        "brier": 0.10086388045762316,
+        "brier_skill": -0.20453589325544752,
+        "pr_auc": 0.22676246673719586,
+        "roc_auc": 0.6811834201342576,
+        "alerts": 370,
+        "precision": 0.42162162162162165,
+        "recall": 0.41711229946524064,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 24,
+        "method": "Classifier (boosted trees + Platt)",
+        "brier": 0.0741861626403975,
+        "brier_skill": 0.11405455275153054,
+        "pr_auc": 0.23725260636776963,
+        "roc_auc": 0.7324287979337412,
+        "alerts": 621,
+        "precision": 0.23027375201288244,
+        "recall": 0.38235294117647056,
+        "events": 374,
+        "n": 4283
+      },
+      {
+        "horizon_h": 24,
+        "method": "Forecast + residual distribution (ridge)",
+        "brier": 0.06682648753810268,
+        "brier_skill": 0.20194521076698435,
+        "pr_auc": 0.3599941359098222,
+        "roc_auc": 0.836717474961798,
+        "alerts": 839,
+        "precision": 0.2943980929678188,
+        "recall": 0.660427807486631,
+        "events": 374,
+        "n": 4283
+      }
+    ],
+    "tuning": [
+      {
+        "horizon_h": 1,
+        "max_leaf_nodes": 7,
+        "learning_rate": 0.03,
+        "inner_cv_mae": 12.494882883284268,
+        "folds_with_platt_scaling": 5
+      },
+      {
+        "horizon_h": 3,
+        "max_leaf_nodes": 15,
+        "learning_rate": 0.03,
+        "inner_cv_mae": 17.179931463659248,
+        "folds_with_platt_scaling": 5
+      },
+      {
+        "horizon_h": 6,
+        "max_leaf_nodes": 7,
+        "learning_rate": 0.03,
+        "inner_cv_mae": 17.20203898934568,
+        "folds_with_platt_scaling": 5
+      },
+      {
+        "horizon_h": 12,
+        "max_leaf_nodes": 31,
+        "learning_rate": 0.03,
+        "inner_cv_mae": 18.557853053594826,
+        "folds_with_platt_scaling": 5
+      },
+      {
+        "horizon_h": 24,
+        "max_leaf_nodes": 31,
+        "learning_rate": 0.03,
+        "inner_cv_mae": 20.675728978926276,
+        "folds_with_platt_scaling": 5
+      }
+    ],
+    "importance": [
+      {
+        "feature": "no2_target_hour_prev_day",
+        "mae_increase": 6.176039834197259,
+        "std": 0.2426862270771919
+      },
+      {
+        "feature": "target_hour_sin",
+        "mae_increase": 4.490679433345962,
+        "std": 0.6272215939032894
+      },
+      {
+        "feature": "no2_target_hour_prev_week",
+        "mae_increase": 3.2464761763651424,
+        "std": 0.27711570116672923
+      },
+      {
+        "feature": "ah",
+        "mae_increase": 1.3526978393961258,
+        "std": 0.1515841184101281
+      },
+      {
+        "feature": "target_hour_cos",
+        "mae_increase": 1.2481483807719969,
+        "std": 0.30719879484395524
+      },
+      {
+        "feature": "no2_lag23",
+        "mae_increase": 1.0650874465306763,
+        "std": 0.10836161981611625
+      },
+      {
+        "feature": "no2_mean6",
+        "mae_increase": 0.7000434080704927,
+        "std": 0.11016520252340117
+      },
+      {
+        "feature": "target_is_weekend",
+        "mae_increase": 0.6829273749068718,
+        "std": 0.21790398027710486
+      },
+      {
+        "feature": "s1_co",
+        "mae_increase": 0.6320470692343421,
+        "std": 0.1112738202181498
+      },
+      {
+        "feature": "no2_lag6",
+        "mae_increase": 0.5066683858662813,
+        "std": 0.21194456474195622
+      }
+    ],
+    "importance_model": "Ridge",
+    "error_by_level": [
+      {
+        "no2_level": "under 100",
+        "Persistence MAE": 49.51043841336117,
+        "Ridge MAE": 24.50855710979592,
+        "Boosted trees MAE": 24.30906236117524,
+        "Persistence bias": 41.82776617954071,
+        "Ridge bias": 19.043149088628986,
+        "Boosted trees bias": 16.979403537176367,
+        "hours": 958
+      },
+      {
+        "no2_level": "100 to 150",
+        "Persistence MAE": 42.17391304347826,
+        "Ridge MAE": 20.292117873420178,
+        "Boosted trees MAE": 21.640191371635133,
+        "Persistence bias": 7.05720823798627,
+        "Ridge bias": 6.3392604706670275,
+        "Boosted trees bias": 6.9121925910828494,
+        "hours": 1311
+      },
+      {
+        "no2_level": "150 to 200",
+        "Persistence MAE": 51.60259433962264,
+        "Ridge MAE": 25.245157559844028,
+        "Boosted trees MAE": 24.620290522822227,
+        "Persistence bias": -32.819575471698116,
+        "Ridge bias": -16.05054116094253,
+        "Boosted trees bias": -14.65850793367686,
+        "hours": 848
+      },
+      {
+        "no2_level": "over 200 (limit)",
+        "Persistence MAE": 75.36011904761905,
+        "Ridge MAE": 47.88908365627262,
+        "Boosted trees MAE": 50.189390018052705,
+        "Persistence bias": -68.54464285714286,
+        "Ridge bias": -46.78577283651762,
+        "Boosted trees bias": -48.96082203482338,
+        "hours": 336
+      }
+    ],
+    "error_by_month": [
+      {
+        "month": "2004-09",
+        "Persistence": 47.1324200913242,
+        "Ridge": 24.20425120932428,
+        "Boosted trees": 21.860716163763033
+      },
+      {
+        "month": "2004-10",
+        "Persistence": 33.640776699029125,
+        "Ridge": 21.059019163193348,
+        "Boosted trees": 19.317646343679087
+      },
+      {
+        "month": "2004-11",
+        "Persistence": 48.38811188811189,
+        "Ridge": 26.44383854270464,
+        "Boosted trees": 28.6657035738663
+      },
+      {
+        "month": "2004-12",
+        "Persistence": 41.1986531986532,
+        "Ridge": 21.244875492964944,
+        "Boosted trees": 20.7183615040509
+      },
+      {
+        "month": "2005-01",
+        "Persistence": 48.78268551236749,
+        "Ridge": 27.786116150442073,
+        "Boosted trees": 28.460067960603933
+      },
+      {
+        "month": "2005-02",
+        "Persistence": 63.6764705882353,
+        "Ridge": 32.30892614515039,
+        "Boosted trees": 34.46469163118581
+      },
+      {
+        "month": "2005-03",
+        "Persistence": 49.9148665819568,
+        "Ridge": 21.430297004589907,
+        "Boosted trees": 21.243355406264477
+      }
+    ],
+    "exceedances_in_training_by_fold": {
+      "2004-09": 12,
+      "2004-10": 25,
+      "2004-11": 25,
+      "2004-12": 84,
+      "2005-01": 115,
+      "2005-02": 161,
+      "2005-03": 321
+    },
+    "exceedances_in_test_by_fold": {
+      "2004-09": 13,
+      "2004-10": 0,
+      "2004-11": 59,
+      "2004-12": 31,
+      "2005-01": 46,
+      "2005-02": 160,
+      "2005-03": 65
+    },
+    "alert_threshold": 0.16666666666666666,
+    "figures": {
+      "skill": "07_forecast_error_by_horizon.png",
+      "error_by_hour": "08_forecast_error_by_hour.png",
+      "coverage": "09_interval_coverage.png",
+      "example": "10_forecast_example.png",
+      "reliability": "11_alert_reliability.png"
+    }
+  },
+  "patterns": {
+    "anomalies": {
+      "hours_scored": 6851,
+      "contextual_anomalies": 58,
+      "contextual_high": 49,
+      "contextual_low": 9,
+      "iqr_outliers": 107,
+      "flagged_by_both": 22,
+      "contextual_missed_by_iqr_pct": 62.06896551724138,
+      "iqr_outliers_that_are_normal_in_context_pct": 79.43925233644859,
+      "iqr_upper_fence": 238.0
+    },
+    "top_days": [
+      {
+        "day": "2004-11-11",
+        "anomalous_hours": 6,
+        "peak_hour": 21,
+        "peak_z": 4.7636562499999995,
+        "peak_value": 207.0,
+        "typical_at_peak": 92.5,
+        "weekday": "Thursday"
+      },
+      {
+        "day": "2004-11-17",
+        "anomalous_hours": 5,
+        "peak_hour": 21,
+        "peak_z": 5.759192307692308,
+        "peak_value": 267.0,
+        "typical_at_peak": 95.5,
+        "weekday": "Wednesday"
+      },
+      {
+        "day": "2004-11-18",
+        "anomalous_hours": 5,
+        "peak_hour": 10,
+        "peak_z": 5.171166666666666,
+        "peak_value": 282.0,
+        "typical_at_peak": 116.0,
+        "weekday": "Thursday"
+      },
+      {
+        "day": "2004-11-16",
+        "anomalous_hours": 4,
+        "peak_hour": 9,
+        "peak_z": 4.047000000000001,
+        "peak_value": 222.0,
+        "typical_at_peak": 112.0,
+        "weekday": "Tuesday"
+      },
+      {
+        "day": "2004-08-09",
+        "anomalous_hours": 3,
+        "peak_hour": 9,
+        "peak_z": -5.896435483870968,
+        "peak_value": 5.0,
+        "typical_at_peak": 146.0,
+        "weekday": "Monday"
+      },
+      {
+        "day": "2004-11-10",
+        "anomalous_hours": 3,
+        "peak_hour": 21,
+        "peak_z": 4.7098706896551725,
+        "peak_value": 193.0,
+        "typical_at_peak": 92.0,
+        "weekday": "Wednesday"
+      },
+      {
+        "day": "2004-09-09",
+        "anomalous_hours": 3,
+        "peak_hour": 18,
+        "peak_z": 4.43671111111111,
+        "peak_value": 220.0,
+        "typical_at_peak": 79.0,
+        "weekday": "Thursday"
+      },
+      {
+        "day": "2005-02-03",
+        "anomalous_hours": 3,
+        "peak_hour": 11,
+        "peak_z": 4.3636020408163265,
+        "peak_value": 333.0,
+        "typical_at_peak": 175.5,
+        "weekday": "Thursday"
+      }
+    ],
+    "regimes": {
+      "k": 2,
+      "silhouette_by_k": {
+        "2": 0.20510563777378757,
+        "3": 0.1707391308871513,
+        "4": 0.10666029316644639,
+        "5": 0.1114946001829917,
+        "6": 0.1115073196631553
+      },
+      "n_days": 315,
+      "chi2_weekend": 136.27788070328393,
+      "p_weekend": 1.7347272391176404e-31,
+      "cramers_v": 0.657744777789104,
+      "summary": [
+        {
+          "regime": 1,
+          "days": 189,
+          "weekend_share_pct": 4.761904761904762,
+          "mean_no2": 116.60504850088184,
+          "peak_hour": 18
+        },
+        {
+          "regime": 2,
+          "days": 126,
+          "weekend_share_pct": 66.66666666666666,
+          "mean_no2": 105.36689814814814,
+          "peak_hour": 20
+        }
+      ]
+    },
+    "figures": {
+      "regimes": "12_daily_regimes.png"
+    }
+  }
+}

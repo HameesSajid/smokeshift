@@ -1,0 +1,217 @@
+target,model,strategy,block,mae,n
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),2,0.31876583624873234,505
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),2,0.31876583624873234,505
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),2,0.31876583624873234,505
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),3,0.24913632234702637,580
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),3,0.6183150769845143,580
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),3,0.3967775966418356,580
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),4,0.3461890742554199,545
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),4,0.2540821109797704,545
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),4,0.2688711807807285,545
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),5,0.37157005701840135,415
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),5,0.2147927030323504,415
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),5,0.33145667918050603,415
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),6,0.4172126434744509,403
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),6,0.33422469592404647,403
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),6,0.33564051515559407,403
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),7,0.34264575261203484,317
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),7,0.2646581346193054,317
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),7,0.3098809577167461,317
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),8,0.40039157183328844,627
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),8,0.35849616641330917,627
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),8,0.34519389460152616,627
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),9,0.7281740214376906,635
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),9,0.4858019170302016,635
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),9,0.5558761496872452,635
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),10,0.7907360280682064,461
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),10,0.5983021351659348,461
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),10,0.458070253254575,461
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),11,0.5905815793076333,575
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),11,0.5083078746363016,575
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),11,0.45261954958005407,575
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),12,0.6151741707213143,612
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),12,0.33149876377692133,612
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),12,0.28336767290257725,612
+co_ref,"All sensors + weather, ridge",Static (first 8 weeks only),13,0.7335305849312921,601
+co_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),13,0.5344772679271467,601
+co_ref,"All sensors + weather, ridge",Expanding (refit on all history),13,0.3839062201388872,601
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),2,0.3232019028795876,505
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),2,0.3232019028795876,505
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),2,0.3232019028795876,505
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),3,0.21514541694448336,580
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),3,0.4136362970007238,580
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),3,0.4324425221688007,580
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),4,0.25495293011682946,545
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),4,0.26818331242061355,545
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),4,0.24003396969892163,545
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),5,0.15965978076161016,415
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),5,0.17375033711693472,415
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),5,0.1674011415553488,415
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),6,0.27650858504153475,403
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),6,0.298333589936268,403
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),6,0.25310437211014963,403
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),7,0.2902591740618016,317
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),7,0.30069404746071327,317
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),7,0.26876811694976394,317
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),8,0.303000671471216,627
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),8,0.3338512912733706,627
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),8,0.29585052367958314,627
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),9,0.47286233448176584,635
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),9,0.4595551775198327,635
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),9,0.4526659444089519,635
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),10,0.4486243289513576,461
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),10,0.6684366753003825,461
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),10,0.6377654720639788,461
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),11,0.44789540854417303,575
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),11,0.5765841978450985,575
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),11,0.5406952799873617,575
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),12,0.29834096176505553,612
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),12,0.35892084304669636,612
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),12,0.30905736953896523,612
+co_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),13,0.34978558709991553,601
+co_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),13,0.45864726232365827,601
+co_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),13,0.3547334645765591,601
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),2,20.652674621912023,530
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),2,20.652674621912023,530
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),2,20.652674621912023,530
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),3,37.600262888461764,567
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),3,32.13618766039945,567
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),3,28.901898608801126,567
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),4,45.439666011050235,644
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),4,25.53776174654683,644
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),4,26.13121809455652,644
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),5,48.04420852324565,497
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),5,24.555812772646448,497
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),5,21.07057874428082,497
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),6,177.69499665188502,295
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),6,123.0979301015497,295
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),6,136.28071356828806,295
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),7,179.4582470451024,307
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),7,55.02493439133344,307
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),7,74.16322339448521,307
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),8,237.74217145766667,611
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),8,68.6795578002484,611
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),8,88.83548889075229,611
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),9,319.43882426230283,620
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),9,86.67371574431492,620
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),9,124.89700424060086,620
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),10,243.4741411104709,449
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),10,87.9170238236305,449
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),10,66.5909289852996,449
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),11,226.0926563930261,609
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),11,49.84406415781031,609
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),11,63.71215979650575,609
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),12,192.73024616244578,593
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),12,46.63473548119425,593
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),12,51.042038385731736,593
+nox_ref,"All sensors + weather, ridge",Static (first 8 weeks only),13,193.19693883116645,618
+nox_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),13,76.38771304425536,618
+nox_ref,"All sensors + weather, ridge",Expanding (refit on all history),13,52.706385321053645,618
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),2,18.665115199805822,530
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),2,18.665115199805822,530
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),2,18.665115199805822,530
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),3,31.875065863637246,567
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),3,26.245325021043197,567
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),3,26.313187674625315,567
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),4,31.756602109205357,644
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),4,24.62135232283793,644
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),4,24.230897594829607,644
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),5,16.951342158936466,497
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),5,17.28917309275024,497
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),5,16.52100510596287,497
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),6,159.55803241403606,295
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),6,133.1052728613669,295
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),6,140.75683899981522,295
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),7,157.4891977292612,307
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),7,66.94481003617172,307
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),7,67.3639918866557,307
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),8,210.8987921768337,611
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),8,79.52481600784937,611
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),8,82.08942341591911,611
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),9,296.03265250489835,620
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),9,77.07735079963189,620
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),9,91.42708518479509,620
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),10,218.49479225653238,449
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),10,62.6949182913876,449
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),10,67.38145026464211,449
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),11,204.38584508251165,609
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),11,51.01723070893233,609
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),11,51.68946947136723,609
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),12,171.9900530550803,593
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),12,44.227879041707006,593
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),12,45.89936092049011,593
+nox_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),13,168.52932888780583,618
+nox_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),13,51.86900582300876,618
+nox_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),13,47.31232120166836,618
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),2,12.064027375132708,530
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),2,12.064027375132708,530
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),2,12.064027375132708,530
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),3,20.882924205349685,566
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),3,18.670625280994937,566
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),3,19.253882812267527,566
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),4,18.909484917043244,643
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),4,14.38875663840221,643
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),4,14.794873836242614,643
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),5,15.843095837723217,496
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),5,20.242157635553998,496
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),5,19.49612106048689,496
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),6,16.809286963473827,295
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),6,15.817521192843708,295
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),6,15.334759951796693,295
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),7,25.983545702798885,307
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),7,24.016978253095953,307
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),7,23.426543797860294,307
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),8,28.50870523143597,611
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),8,28.022343754455566,611
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),8,24.5676329956784,611
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),9,21.864303864844285,620
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),9,21.235208016737026,620
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),9,18.21194325685267,620
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),10,13.99457597173169,449
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),10,13.225314047854,449
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),10,15.296439268207713,449
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),11,23.5516525995326,609
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),11,24.69979257636088,609
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),11,27.175539440082456,609
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),12,29.9373390697811,593
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),12,25.401457786379588,593
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),12,30.28299226212639,593
+no2_ref,"All sensors + weather, ridge",Static (first 8 weeks only),13,17.038298939143935,618
+no2_ref,"All sensors + weather, ridge",Rolling (refit on last 8 weeks),13,19.049657322163117,618
+no2_ref,"All sensors + weather, ridge",Expanding (refit on all history),13,14.925731356850962,618
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),2,12.653154293911154,530
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),2,12.653154293911154,530
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),2,12.653154293911154,530
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),3,20.291496415220085,566
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),3,18.844017296181203,566
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),3,20.064378494508457,566
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),4,23.123521854634742,643
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),4,12.746632435251913,643
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),4,12.580633430253057,643
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),5,17.874245359384826,496
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),5,14.052025674085643,496
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),5,13.739864906393018,496
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),6,24.874376614647485,295
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),6,16.04176647478885,295
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),6,16.112910712614063,295
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),7,20.496239830027598,307
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),7,21.636682632186837,307
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),7,18.31069183425661,307
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),8,22.735769973287734,611
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),8,25.57836175566325,611
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),8,22.843028124401712,611
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),9,32.87120064776592,620
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),9,25.63756421619271,620
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),9,24.389130836146617,620
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),10,39.300414143626426,449
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),10,15.945053487096212,449
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),10,15.929718251946403,449
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),11,58.15560909303555,609
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),11,26.94535200571377,609
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),11,25.53053476966204,609
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),12,68.50513353397996,593
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),12,25.42453951908311,593
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),12,26.655726990241227,593
+no2_ref,"All sensors + weather, boosted trees",Static (first 8 weeks only),13,44.349152119845,618
+no2_ref,"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),13,20.5222729949804,618
+no2_ref,"All sensors + weather, boosted trees",Expanding (refit on all history),13,17.304218639740036,618

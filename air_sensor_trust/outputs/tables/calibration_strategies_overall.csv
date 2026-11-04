@@ -1,0 +1,19 @@
+target,model,strategy,mae
+CO (mg/m³),"All sensors + weather, boosted trees",Expanding (refit on all history),0.36356164915651884
+CO (mg/m³),"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),0.39405271465993275
+CO (mg/m³),"All sensors + weather, boosted trees",Static (first 8 weeks only),0.3256955165832017
+CO (mg/m³),"All sensors + weather, ridge",Expanding (refit on all history),0.3750295839376181
+CO (mg/m³),"All sensors + weather, ridge",Rolling (refit on last 8 weeks),0.41288338155977083
+CO (mg/m³),"All sensors + weather, ridge",Static (first 8 weeks only),0.5035044682147599
+NO2 (µg/m³),"All sensors + weather, boosted trees",Expanding (refit on all history),19.192262118205324
+NO2 (µg/m³),"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),20.003912184538233
+NO2 (µg/m³),"All sensors + weather, boosted trees",Static (first 8 weeks only),33.28407253682608
+NO2 (µg/m³),"All sensors + weather, ridge",Expanding (refit on all history),19.740044966863007
+NO2 (µg/m³),"All sensors + weather, ridge",Rolling (refit on last 8 weeks),19.945801417459315
+NO2 (µg/m³),"All sensors + weather, ridge",Static (first 8 weeks only),20.680140647152705
+NOx (ppb),"All sensors + weather, boosted trees",Expanding (refit on all history),52.97534119832184
+NOx (ppb),"All sensors + weather, boosted trees",Rolling (refit on last 8 weeks),50.93373851774974
+NOx (ppb),"All sensors + weather, boosted trees",Static (first 8 weeks only),140.9110915051679
+NOx (ppb),"All sensors + weather, ridge",Expanding (refit on all history),60.07254414785508
+NOx (ppb),"All sensors + weather, ridge",Rolling (refit on last 8 weeks),55.42853862018603
+NOx (ppb),"All sensors + weather, ridge",Static (first 8 weeks only),160.3986889726973

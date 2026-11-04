@@ -22,10 +22,15 @@ Paths are relative to the project folder, `C:\Users\hamee\vscode\smokeshift`.
 
 Total on disk: about 17 GB, of which 27 MB is in the repository.
 
-The companion project from the first phase of this work is a separate folder, `C:\Users\hamee\vscode\air_sensor_trust`
-(8 MB). It has no environment or cache of its own.
+The companion project from the first phase of this work is in the `air_sensor_trust\` folder of the repository
+(8 MB, added on 2026-11-03; until then it was a separate folder at `C:\Users\hamee\vscode\air_sensor_trust`). It has
+no environment or cache of its own: it needs only numpy, pandas, scipy, scikit-learn and matplotlib, and runs with
+`python run_all.py` from inside that folder.
 
-On GitHub: https://github.com/HameesSajid/smokeshift holds item 1 only.
+On GitHub: https://github.com/HameesSajid/smokeshift holds item 1 and the companion project on branch `main`. The
+personal notes (`private_notes\cv_summary.md`, ignored on `main`) are on a separate branch, `private-notes`, so they
+stay out of the project itself. Get them back with
+`git fetch origin private-notes` and `git show origin/private-notes:cv_summary.md > private_notes\cv_summary.md`.
 
 ## Details
 
@@ -163,7 +168,8 @@ powershell -ExecutionPolicy Bypass -File scripts\setup_env.ps1      # environmen
 .venv\Scripts\python run.py all                                      # every model and score, 4 to 5 hours on the GPU
 ```
 
-`run.py all` downloads the pretrained weights on first use and rebuilds `.cache`. The README section
+`run.py all` downloads the pretrained weights on first use and rebuilds `.cache`. For the companion project:
+`cd air_sensor_trust` then `..\.venv\Scripts\python run_all.py`. It runs on a CPU. The README section
 "Run it on your own computer" has the stage-by-stage version.
 
 ## Using the GPU
@@ -208,3 +214,4 @@ variants take about three hours, and the ten seed runs about half an hour.
 | 2026-10-08 | Ran the seed experiment. It added two small tables to `outputs/tables/` and nothing to `.cache` |
 | 2026-10-08 | Nothing was installed and nothing was downloaded: `.venv` and `.cache\huggingface` are unchanged |
 | 2026-11-03 | Removed `.venv`, `.cache` and `__pycache__` from the laptop (about 17 GB). See "Local clean-up on 2026-11-03" for how to restore them |
+| 2026-11-03 | Added the companion project to the repository as `air_sensor_trust\` and the personal notes to branch `private-notes`, then deleted both local folders, `C:\Users\hamee\vscode\smokeshift` and `C:\Users\hamee\vscode\air_sensor_trust`. Nothing from the project is left on the laptop |

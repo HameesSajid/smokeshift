@@ -335,6 +335,7 @@ docs/                       code guide, API reference, concepts, install log, Co
 outputs/                    report.html, 13 figures, result tables
 dashboard/                  interactive page and its data bundle
 data/processed/             the cleaned panel, monitor table and raw-file checksums
+air_sensor_trust/           the companion first-phase project (UCI sensor calibration), self-contained
 .venv/, .cache/             created when you run it; ignored by git
 ```
 

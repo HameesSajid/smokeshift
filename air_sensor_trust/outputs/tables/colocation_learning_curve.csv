@@ -1,0 +1,37 @@
+target,model,weeks,n_train,mae
+CO (mg/m³),"All sensors + weather, ridge",1,160,1.3343197404297595
+CO (mg/m³),"All sensors + weather, boosted trees",1,160,0.4045604076927649
+CO (mg/m³),"All sensors + weather, ridge",2,320,0.6017426156636687
+CO (mg/m³),"All sensors + weather, boosted trees",2,320,0.40381242898896375
+CO (mg/m³),"All sensors + weather, ridge",4,602,0.4322736500173871
+CO (mg/m³),"All sensors + weather, boosted trees",4,602,0.33719541054965824
+CO (mg/m³),"All sensors + weather, ridge",8,1068,0.357161061595667
+CO (mg/m³),"All sensors + weather, boosted trees",8,1068,0.2137584957601461
+CO (mg/m³),"All sensors + weather, ridge",12,1573,0.6017807177951326
+CO (mg/m³),"All sensors + weather, boosted trees",12,1573,0.39905580893576437
+CO (mg/m³),"All sensors + weather, ridge",16,2153,0.34111227236283603
+CO (mg/m³),"All sensors + weather, boosted trees",16,2153,0.20330247200037999
+NOx (ppb),"All sensors + weather, ridge",1,160,128.57108530042848
+NOx (ppb),"All sensors + weather, boosted trees",1,160,32.5667914027289
+NOx (ppb),"All sensors + weather, ridge",2,321,82.99852954933506
+NOx (ppb),"All sensors + weather, boosted trees",2,321,26.445879965701607
+NOx (ppb),"All sensors + weather, ridge",4,594,66.30632113829671
+NOx (ppb),"All sensors + weather, boosted trees",4,594,26.624211125886625
+NOx (ppb),"All sensors + weather, ridge",8,1056,46.57415998875498
+NOx (ppb),"All sensors + weather, boosted trees",8,1056,25.307685198352036
+NOx (ppb),"All sensors + weather, ridge",12,1586,37.79099661271862
+NOx (ppb),"All sensors + weather, boosted trees",12,1586,23.013070868097266
+NOx (ppb),"All sensors + weather, ridge",16,2153,26.29629792870109
+NOx (ppb),"All sensors + weather, boosted trees",16,2153,20.803312770724094
+NO2 (µg/m³),"All sensors + weather, ridge",1,160,16.273472170970045
+NO2 (µg/m³),"All sensors + weather, boosted trees",1,160,23.521646083433325
+NO2 (µg/m³),"All sensors + weather, ridge",2,321,16.829158100516608
+NO2 (µg/m³),"All sensors + weather, boosted trees",2,321,17.469155143316648
+NO2 (µg/m³),"All sensors + weather, ridge",4,594,16.546910660530934
+NO2 (µg/m³),"All sensors + weather, boosted trees",4,594,17.410687336017148
+NO2 (µg/m³),"All sensors + weather, ridge",8,1056,17.57416535309001
+NO2 (µg/m³),"All sensors + weather, boosted trees",8,1056,20.837620940109755
+NO2 (µg/m³),"All sensors + weather, ridge",12,1586,16.705972304328817
+NO2 (µg/m³),"All sensors + weather, boosted trees",12,1586,21.819378907192515
+NO2 (µg/m³),"All sensors + weather, ridge",16,2152,17.407279450266948
+NO2 (µg/m³),"All sensors + weather, boosted trees",16,2152,13.161650349461965
